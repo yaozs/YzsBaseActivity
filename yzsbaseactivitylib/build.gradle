@@ -22,10 +22,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
+    //viewpager指示器 与 导航栏控件
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
+    // 为"单Activity ＋ 多Fragment","多模块Activity + 多Fragment"架构而生,替代官方fragment
+    compile 'me.yokeyword:fragmentation:0.9.0'
+    //事件总线
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //RecyclerView的强大的BaseAdapter
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.9'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
 }
