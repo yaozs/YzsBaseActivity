@@ -1,24 +1,19 @@
 package com.yzs.yzsbaseactivity;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.yzs.yzsbaseactivitylib.activity.YzsBaseActivity;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
-import com.yzs.yzsbaseactivitylib.util.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -46,6 +41,14 @@ public class MainActivity extends YzsBaseActivity {
         tabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout);
         add = (TextView) findViewById(R.id.iv_add);
         del = (TextView) findViewById(R.id.iv_del);
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+        fragments.add(new MyFragment());
+
     }
 
     @Override
@@ -54,6 +57,19 @@ public class MainActivity extends YzsBaseActivity {
 //		mViewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(mAdapetr);
         viewPager.addOnPageChangeListener(pageListener);
+         add.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+             }
+         });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        tabLayout.setViewPager(viewPager);
     }
 
     @Override
@@ -82,7 +98,7 @@ public class MainActivity extends YzsBaseActivity {
         @Override
         public void onPageSelected(int position) {
             // TODO Auto-generated method stub
-            viewPager.setCurrentItem(position);
+//            viewPager.setCurrentItem(position);
         }
     };
 
