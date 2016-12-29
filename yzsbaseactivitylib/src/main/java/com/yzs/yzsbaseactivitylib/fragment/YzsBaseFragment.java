@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,21 +44,25 @@ public abstract class YzsBaseFragment extends SupportFragment {
             getBundleExtras(getArguments());
         }
         View view = initContentView(inflater, container, savedInstanceState);
-        initView(view);
-        initLogic(view);
+//        initView(view);
         return view;
     }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        initLogic();
+    }
 
     // 初始化UI setContentView
     protected abstract View initContentView(LayoutInflater inflater, @Nullable ViewGroup container,
                                             @Nullable Bundle savedInstanceState);
 
     // 初始化控件
-    protected abstract void initView(View view);
+//    protected abstract void initView(View view);
 
     // 逻辑处理
-    protected abstract void initLogic(View view);
+    protected abstract void initLogic();
 
 
     /**

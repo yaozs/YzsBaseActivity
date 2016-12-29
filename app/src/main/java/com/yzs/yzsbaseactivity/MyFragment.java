@@ -1,15 +1,17 @@
 package com.yzs.yzsbaseactivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
-import com.yzs.yzsbaseactivitylib.fragment.YzsBaseLazyFragment;
+import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
 
 
 /**
@@ -18,39 +20,57 @@ import com.yzs.yzsbaseactivitylib.fragment.YzsBaseLazyFragment;
  * Description:
  * Date: 2016/12/28.
  */
-public class MyFragment extends YzsBaseLazyFragment {
+public class MyFragment extends YzsBaseFragment {
     private static final String TAG = "MyFragment";
     TextView textView;
-
+    Handler handler = new Handler();
+    ProgressBar progressBar;
     private int num;
 
     private int aa;
 
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
+    public static MyFragment newInstance(int type) {
 
-    private boolean firstLoadOk;
+        Bundle args = new Bundle();
+        args.putInt("num", type);
+        MyFragment fragment = new MyFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e("第" + num + "MyFragment", num + "initContentView");
-        View mView = inflater.inflate(R.layout.my_fragment, container, false);
-        isPrepared = true;
-        return mView;
+        View view = inflater.inflate(R.layout.my_fragment, container, false);
+        initView(view);
+        return view;
     }
 
-    @Override
+//    @Override
     protected void initView(View view) {
-        Log.e("第" + num + "MyFragment", num + "initView");
-
         textView = (TextView) view.findViewById(R.id.textview);
-        textView.setOnClickListener(new View.OnClickListener() {
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+//    @Override
+//    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+//        super.onLazyInitView(savedInstanceState);
+
+//
+//    }
+
+    @Override
+    protected void initLogic() {
+        Log.e("第" + num + "MyFragment", num + "initLogic");
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                aa++;
-                textView.setText(aa + "!");
+            public void run() {
+                textView.setText("第" + num + "MyFragment");
+                progressBar.setVisibility(View.GONE);
             }
-        });
+        }, 2000);
     }
 
 
@@ -65,35 +85,4 @@ public class MyFragment extends YzsBaseLazyFragment {
 
     }
 
-    @Override
-    protected void lazyLoad() {
-        if (!isPrepared || !isVisible) {
-            return;
-        }
-
-        if (textView == null) {
-            Log.e("第" + num + "MyFragment", "textView==null");
-        } else {
-            Log.e("第" + num + "MyFragment", "textView!=null");
-        }
-        if (!firstLoadOk) {
-            firstLoadOk = true;
-        }else {
-            textView.setText("第" + num + "MyFragment");
-            return;
-        }
-        textView.setText("1111111111111111111");
-    }
-
-    @Override
-    protected void onInvisible() {
-        super.onInvisible();
-        Log.e("第" + num + "MyFragment", num + "onInvisible");
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        Log.e("第" + num + "MyFragment", num + "onVisible");
-    }
 }

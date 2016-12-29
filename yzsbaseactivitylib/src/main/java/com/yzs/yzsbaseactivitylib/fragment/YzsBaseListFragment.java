@@ -9,7 +9,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yzs.yzsbaseactivitylib.R;
-import com.yzs.yzsbaseactivitylib.activity.YzsBaseListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public abstract class YzsBaseListFragment<T> extends YzsBaseFragment {
     private int layoutResId = -1;
 
 
-    @Override
+//    @Override
     protected void initView(View view) {
         initLayoutResId();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.base_list);

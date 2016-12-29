@@ -3,11 +3,9 @@ package com.yzs.yzsbaseactivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -54,8 +52,9 @@ public class MainActivity extends YzsBaseActivity {
 
     @Override
     protected void initLogic() {
-        NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
+        NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager());
 //		mViewPager.setOffscreenPageLimit(0);
+//        viewPager.setOffscreenPageLimit(mTitles.length);
         viewPager.setAdapter(mAdapetr);
         viewPager.addOnPageChangeListener(pageListener);
         add.setOnClickListener(new View.OnClickListener() {
@@ -104,14 +103,13 @@ public class MainActivity extends YzsBaseActivity {
     };
 
 
-    public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
-        private List<YzsBaseFragment> fragments;
+    public class NewsFragmentPagerAdapter extends FragmentStatePagerAdapter {
+
         private FragmentManager fm;
 
 
-        public NewsFragmentPagerAdapter(FragmentManager fm, List<YzsBaseFragment> fragments) {
+        public NewsFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            this.fragments = fragments;
         }
 
         @Override
@@ -121,7 +119,7 @@ public class MainActivity extends YzsBaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return fragments.get(position);
+            return MyFragment.newInstance(position + 1);
         }
 
         @Override
@@ -129,9 +127,5 @@ public class MainActivity extends YzsBaseActivity {
             return fragments.size();
         }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-//            super.destroyItem(container, position, object);
-        }
     }
 }
