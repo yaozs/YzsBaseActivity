@@ -16,6 +16,7 @@ import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends YzsBaseActivity {
 
@@ -23,7 +24,7 @@ public class MainActivity extends YzsBaseActivity {
     private SlidingTabLayout tabLayout;
     private TextView add;
     private TextView del;
-    private ArrayList<YzsBaseFragment> fragments = new ArrayList<>();
+    private List<YzsBaseFragment> fragments = new ArrayList<>();
 
     private final String[] mTitles = {
             "热门", "iOS", "Android"
@@ -41,13 +42,13 @@ public class MainActivity extends YzsBaseActivity {
         tabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout);
         add = (TextView) findViewById(R.id.iv_add);
         del = (TextView) findViewById(R.id.iv_del);
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new MyFragment());
+        for (int i = 0; i < 7; i++) {
+            MyFragment m = new MyFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("num", i);
+            m.setArguments(bundle);
+            fragments.add(m);
+        }
 
     }
 
@@ -57,12 +58,12 @@ public class MainActivity extends YzsBaseActivity {
 //		mViewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(mAdapetr);
         viewPager.addOnPageChangeListener(pageListener);
-         add.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-             }
-         });
+            }
+        });
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,48 +105,13 @@ public class MainActivity extends YzsBaseActivity {
 
 
     public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<YzsBaseFragment> fragments;
+        private List<YzsBaseFragment> fragments;
         private FragmentManager fm;
 
-        public NewsFragmentPagerAdapter(FragmentManager fm) {
+
+        public NewsFragmentPagerAdapter(FragmentManager fm, List<YzsBaseFragment> fragments) {
             super(fm);
-            this.fm = fm;
-        }
-
-        public NewsFragmentPagerAdapter(FragmentManager fm,
-                                        ArrayList<YzsBaseFragment> fragments) {
-            super(fm);
-            this.fm = fm;
             this.fragments = fragments;
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Override
-        public YzsBaseFragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        public void setFragments(ArrayList<YzsBaseFragment> fragments) {
-            if (this.fragments != null) {
-                FragmentTransaction ft = fm.beginTransaction();
-                for (Fragment f : this.fragments) {
-                    ft.remove(f);
-                }
-                ft.commit();
-                ft = null;
-                fm.executePendingTransactions();
-            }
-            this.fragments = fragments;
-            notifyDataSetChanged();
         }
 
         @Override
@@ -154,10 +120,18 @@ public class MainActivity extends YzsBaseActivity {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-            Object obj = super.instantiateItem(container, position);
-            return obj;
+        public Fragment getItem(int position) {
+            return fragments.get(position);
         }
 
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+//            super.destroyItem(container, position, object);
+        }
     }
 }

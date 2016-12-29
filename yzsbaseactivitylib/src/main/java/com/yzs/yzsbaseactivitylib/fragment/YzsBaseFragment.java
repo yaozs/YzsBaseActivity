@@ -50,19 +50,6 @@ public abstract class YzsBaseFragment extends SupportFragment {
         return view;
     }
 
-    protected View createFragmentView(LayoutInflater inflater, @Nullable ViewGroup container, int resId) {
-        View view = null;
-        if (null != inflater) {
-            view = inflater.inflate(resId, container, false);
-        }
-
-        // TODO
-        if (null == view) {
-            Log.e(TAG, "fragment view is not created！");
-        }
-
-        return view;
-    }
 
     // 初始化UI setContentView
     protected abstract View initContentView(LayoutInflater inflater, @Nullable ViewGroup container,
