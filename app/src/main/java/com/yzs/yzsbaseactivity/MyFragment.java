@@ -43,35 +43,43 @@ public class MyFragment extends YzsBaseFragment {
     protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e("第" + num + "MyFragment", num + "initContentView");
         View view = inflater.inflate(R.layout.my_fragment, container, false);
-        initView(view);
+//        initView(view);
         return view;
     }
 
 //    @Override
-    protected void initView(View view) {
-        textView = (TextView) view.findViewById(R.id.textview);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-//    @Override
-//    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-//        super.onLazyInitView(savedInstanceState);
-
+//    protected void initView(View view) {
+//        textView = (TextView) view.findViewById(R.id.textview);
+////        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+////        progressBar.setVisibility(View.VISIBLE);    }
 //
-//    }
+////    @Override
+////    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+////        super.onLazyInitView(savedInstanceState);
+//
+////
+////    }
+
 
     @Override
-    protected void initLogic() {
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        showLoadingDialog();
         Log.e("第" + num + "MyFragment", num + "initLogic");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                textView.setText("第" + num + "MyFragment");
-                progressBar.setVisibility(View.GONE);
+//                textView.setText("第" + num + "MyFragment");
+//                progressBar.setVisibility(View.GONE);
+                cancelLoadingDialog();
             }
         }, 2000);
     }
+
+//    @Override
+//    protected void initLogic() {
+//
+//    }
 
 
     @Override

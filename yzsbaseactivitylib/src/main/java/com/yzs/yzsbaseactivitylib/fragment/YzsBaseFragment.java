@@ -51,7 +51,7 @@ public abstract class YzsBaseFragment extends SupportFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        initLogic();
+//        initLogic();
     }
 
     // 初始化UI setContentView
@@ -62,7 +62,7 @@ public abstract class YzsBaseFragment extends SupportFragment {
 //    protected abstract void initView(View view);
 
     // 逻辑处理
-    protected abstract void initLogic();
+//    protected abstract void initLogic();
 
 
     /**
