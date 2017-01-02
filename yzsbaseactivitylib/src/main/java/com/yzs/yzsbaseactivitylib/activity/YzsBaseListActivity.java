@@ -59,7 +59,7 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
     @Override
     protected void initView() {
         initLayoutResId();
-        mRecyclerView = (RecyclerView) findViewById(R.id.base_list);
+        mRecyclerView = (RecyclerView) findViewById(R.id.yzs_base_list);
         chooseListType(mListType, mIsVertical);
         if (-1 == layoutResId) {
             throw new RuntimeException("layoutResId is null!");

@@ -61,7 +61,7 @@ public abstract class YzsBaseListFragment<T> extends YzsBaseFragment {
 //    @Override
     protected void initView(View view) {
         initLayoutResId();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.base_list);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
         chooseListType(mListType, mIsVertical);
         if (-1 == layoutResId) {
             throw new RuntimeException("layoutResId is null!");

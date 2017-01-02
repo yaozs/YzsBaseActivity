@@ -66,9 +66,9 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
 
     @Override
     protected void initView() {
-        mTabLayout = (CommonTabLayout) findViewById(R.id.base_tabLayout);
-        mViewPager = (ViewPager) findViewById(R.id.base_tabLayout_viewPager);
-        mFrameLayout = (FrameLayout) findViewById(R.id.base_tabLayout_frameLayout);
+        mTabLayout = (CommonTabLayout) findViewById(R.id.yzs_base_tabLayout);
+        mViewPager = (ViewPager) findViewById(R.id.yzs_base_tabLayout_viewPager);
+        mFrameLayout = (FrameLayout) findViewById(R.id.yzs_base_tabLayout_frameLayout);
         initTab();
 
         if (null == mFragments || mFragments.length == 0) {
@@ -112,7 +112,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
         //加载mFragments
         if (getBundle() == null) {
             //加载mFragments
-            loadMultipleRootFragment(R.id.base_tabLayout_frameLayout, 1, mFragments);
+            loadMultipleRootFragment(R.id.yzs_base_tabLayout_frameLayout, 1, mFragments);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
             for (int i = 0; i < mFragments.length; i++) {
