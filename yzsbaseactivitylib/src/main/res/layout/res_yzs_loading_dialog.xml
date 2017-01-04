@@ -17,7 +17,7 @@
         android:id="@+id/tv_res_yzs_loading_dialog_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="10dp"
         android:text=""
         android:textColor="@color/md_grey_400" />
 

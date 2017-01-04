@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yzs.yzsbaseactivitylib.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.loading.LoadingDialog;
@@ -159,12 +158,6 @@ public abstract class YzsBaseActivity extends SupportActivity {
 
 
 
-    protected void changedView(BaseQuickAdapter adapter, View view) {
-        if (null != adapter) {
-            adapter.setEmptyView(view);
-            adapter.notifyItemChanged(0);
-        }
-    }
 
     /**
      * 显示默认加载动画 默认加载文字
