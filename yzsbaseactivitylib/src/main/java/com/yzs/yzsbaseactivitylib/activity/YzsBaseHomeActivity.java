@@ -57,6 +57,22 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
 
     private Bundle bundle;
 
+    private int initChooseTab;
+    /**
+     * 是不是程序默认选中
+     */
+    private boolean isFirst = true;
+
+    /**
+     * 如果使用viewpager，初始化选中必须用该方法
+     *
+     * @param initChooseTab 选中position
+     */
+    public void setInitChooseTab(int initChooseTab) {
+        this.initChooseTab = initChooseTab;
+    }
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +90,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
         if (null == mFragments || mFragments.length == 0) {
             throw new RuntimeException("mFragments is null!");
         }
-//        initFragments();
+
         initTabEntities();
         if (null == mTabLayout) {
             throw new RuntimeException("CommonTabLayout is null!");
@@ -85,15 +101,25 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
         }
 
         if (null != mViewPager) {
-            Log.e(TAG,"Choose_ViewPager");
+            Log.e(TAG, "Choose_ViewPager");
             initViewpagerAdapter();
         } else {
             initFragments();
-            Log.e(TAG,"Choose_frameLayout");
+            Log.e(TAG, "Choose_frameLayout");
         }
         setTabSelect();
+        if (null != mViewPager) {
+            mViewPager.setCurrentItem(initChooseTab);
+        } else {
+            mTabLayout.setCurrentTab(initChooseTab);
+        }
+
+
     }
 
+    /**
+     * 初始化图标图片文字fragment数据
+     */
     private void initTabEntities() {
         if (null == mFragments || mFragments.length == 0 || mFragments.length != mIconSelectIds.length ||
                 mFragments.length != mIconUnSelectIds.length) {
@@ -116,7 +142,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
             for (int i = 0; i < mFragments.length; i++) {
-                Log.e(TAG,"initFragments" + i);
+                Log.e(TAG, "initFragments" + i);
                 mFragments[i] = findFragment(mFragments[i].getClass());
             }
         }
@@ -138,18 +164,24 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
                 mTabLayout.setCurrentTab(position);
             }
 
+            /**
+             * viewpager滑动状态判断，1为滑动状态，2为滑动完成，0为停止
+             */
             @Override
             public void onPageScrollStateChanged(int state) {
+                if (state == 0) {
+                    YzsBaseHomeActivity.this.onTabSelect(mViewPager.getCurrentItem());
+                }
 
             }
         });
     }
 
     /**
-     * 为mTabLayout
+     * 为mTabLayout设置监听
      */
     private void setTabSelect() {
-        Log.e(TAG,"setTabSelect");
+        Log.e(TAG, "setTabSelect");
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -160,24 +192,36 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
                     for (int i = 0; i < mFragments.length; i++) {
                         if (!mFragments[i].isHidden()) {
                             toDoHidden = i;
-                            Log.e(TAG,"查找显示中的fragment-------" + toDoHidden);
+                            Log.e(TAG, "查找显示中的fragment-------" + toDoHidden);
                         }
                     }
-                    Log.e(TAG,"选中的fragment-------" + position);
-                    Log.e(TAG,"确定显示中的fragment-------" + toDoHidden);
+                    Log.e(TAG, "选中的fragment-------" + position);
+                    Log.e(TAG, "确定显示中的fragment-------" + toDoHidden);
 
                     showHideFragment(mFragments[position], mFragments[toDoHidden]);
                 }
+                YzsBaseHomeActivity.this.onTabSelect(position);
             }
 
             @Override
             public void onTabReselect(int position) {
-                if (position == 0) {
-                    Log.e(TAG,"再次选中项" + position);
-                }
+
+                Log.e(TAG, "再次选中项" + position);
+                YzsBaseHomeActivity.this.onTabReselect(position);
             }
         });
     }
+
+    /**
+     * tab的选中回调
+     */
+    protected abstract void onTabSelect(int position);
+
+    /**
+     * tab的再次选中回调
+     */
+    protected abstract void onTabReselect(int position);
+
 
     /**
      * 设置TabLayout属性，所有关于TabLayout属性在这里设置

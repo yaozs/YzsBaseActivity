@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Author: zhy
  * Version: V1.0版本
- * Description: ListView 普通list展示数据使用adapter
+ * Description: ListView 普通list展示数据使用adapter(张弘扬写的，默认使用的不是这个)
  * Date: 2016/12/7
  */
 public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {

@@ -1,4 +1,4 @@
-package com.yzs.yzsbaseactivity;
+package com.yzs.yzsbaseactivity.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
+import com.yzs.yzsbaseactivity.R;
+import com.yzs.yzsbaseactivity.fragment.MyFragment;
 import com.yzs.yzsbaseactivitylib.activity.YzsBaseActivity;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
@@ -119,7 +121,9 @@ public class MainActivity extends YzsBaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return MyFragment.newInstance(position + 1);
+            Bundle bundle = new Bundle();
+            bundle.putInt("num",position + 1);
+            return MyFragment.newInstance(bundle);
         }
 
         @Override

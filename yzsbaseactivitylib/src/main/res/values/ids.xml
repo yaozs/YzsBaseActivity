@@ -12,7 +12,9 @@
     <item name="yzs_base_tabLayout" type="id" />
     <item name="yzs_base_tabLayout_viewPager" type="id" />
     <item name="yzs_base_tabLayout_frameLayout" type="id" />
-    <!-- 使用YzsBaseStaticPagerActivity与YzsBaseDynamicPagerActivity需要使用的id -->
+    <!-- 使用YzsBaseDynamicPagerActivity需要使用的id -->
     <item name="yzs_base_pager_viewpager" type="id" />
+    <item name="yzs_base_pager_tabLayout" type="id" />
+    <item name="yzs_base_pager_change" type="id" />
 
 </resources>

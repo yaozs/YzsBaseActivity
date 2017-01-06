@@ -58,9 +58,9 @@ public abstract class YzsBaseListFragment<T> extends YzsBaseFragment {
     private int layoutResId = -1;
 
 
-//    @Override
+    //    @Override
     protected void initView(View view) {
-        initLayoutResId();
+        initItemLayout();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
         chooseListType(mListType, mIsVertical);
         if (-1 == layoutResId) {
@@ -83,8 +83,10 @@ public abstract class YzsBaseListFragment<T> extends YzsBaseFragment {
 
     /**
      * 初始化子布局
+     * 在这个方法里处理的是recyclerview的所有的初始化，
+     * 包括对他的展示形式，是list或grid或瀑布流
      */
-    protected abstract void initLayoutResId();
+    protected abstract void initItemLayout();
 
     /**
      * 是否打开加载更多
@@ -102,6 +104,11 @@ public abstract class YzsBaseListFragment<T> extends YzsBaseFragment {
         mIsVertical = isVertical;
     }
 
+    /**
+     * 为grid样式和瀑布流设置横向或纵向数量
+     *
+     * @param spanCount 数量
+     */
     protected void setSpanCount(int spanCount) {
         if (spanCount > 0)
             mSpanCount = spanCount;

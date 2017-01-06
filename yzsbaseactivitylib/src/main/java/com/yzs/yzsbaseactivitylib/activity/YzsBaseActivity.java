@@ -62,7 +62,6 @@ public abstract class YzsBaseActivity extends SupportActivity {
 
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
-            getBundleExtras(extras);
         }
         EventBus.getDefault().register(this);
         initContentView(savedInstanceState);
@@ -79,10 +78,19 @@ public abstract class YzsBaseActivity extends SupportActivity {
 
     }
 
+    /**
+     * 替代onCreate的使用
+     */
     protected abstract void initContentView(android.os.Bundle bundle);
 
+    /**
+     * 初始化view
+     */
     protected abstract void initView();
 
+    /**
+     * 初始化逻辑
+     */
     protected abstract void initLogic();
 
 
@@ -109,11 +117,13 @@ public abstract class YzsBaseActivity extends SupportActivity {
     }
 
     public void setTitle(String string) {
-        title.setText(string);
+        if (null != title)
+            title.setText(string);
     }
 
     public void setTitle(int id) {
-        title.setText(id);
+        if (null != title)
+            title.setText(id);
     }
 
 
@@ -130,9 +140,6 @@ public abstract class YzsBaseActivity extends SupportActivity {
         win.setAttributes(winParams);
     }
 
-    protected void chooseUseTitle(boolean choose) {
-        useTitle = choose;
-    }
 
     /**
      * EventBus接收消息
@@ -155,8 +162,6 @@ public abstract class YzsBaseActivity extends SupportActivity {
      * @param center 获取事件总线信息
      */
     protected abstract void onEventComing(EventCenter center);
-
-
 
 
     /**

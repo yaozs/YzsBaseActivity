@@ -1,1 +1,1 @@
-include ':app', ':yzsbaseactivitylib', ':yzsbase'
+include ':app', ':yzsbaseactivitylib'

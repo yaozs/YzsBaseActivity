@@ -1,4 +1,4 @@
-package com.yzs.yzsbaseactivity;
+package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
 
@@ -29,10 +30,7 @@ public class MyFragment extends YzsBaseFragment {
 
     private int aa;
 
-    public static MyFragment newInstance(int type) {
-
-        Bundle args = new Bundle();
-        args.putInt("num", type);
+    public static MyFragment newInstance(Bundle args) {
         MyFragment fragment = new MyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -43,15 +41,23 @@ public class MyFragment extends YzsBaseFragment {
     protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e("第" + num + "MyFragment", num + "initContentView");
         View view = inflater.inflate(R.layout.my_fragment, container, false);
-//        initView(view);
+//        view.findViewById(R.id.textview);
+        initView(view);
         return view;
     }
 
-//    @Override
-//    protected void initView(View view) {
-//        textView = (TextView) view.findViewById(R.id.textview);
-////        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-////        progressBar.setVisibility(View.VISIBLE);    }
+    //    @Override
+    protected void initView(View view) {
+        textView = (TextView) view.findViewById(R.id.textview);
+        textView.setText("第" + num + "MyFragment");
+//        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void initLogic() {
+
+    }
 //
 ////    @Override
 ////    public void onLazyInitView(@Nullable Bundle savedInstanceState) {

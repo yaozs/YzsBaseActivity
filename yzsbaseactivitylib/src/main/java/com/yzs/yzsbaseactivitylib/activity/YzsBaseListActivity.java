@@ -1,5 +1,6 @@
 package com.yzs.yzsbaseactivitylib.activity;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +59,7 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
 
     @Override
     protected void initView() {
-        initLayoutResId();
+        initItemLayout();
         mRecyclerView = (RecyclerView) findViewById(R.id.yzs_base_list);
         chooseListType(mListType, mIsVertical);
         if (-1 == layoutResId) {
@@ -75,14 +76,14 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
      *
      * @param layoutResId 子布局layout
      */
-    public void setLayoutResId(int layoutResId) {
+    public void setLayoutResId(@LayoutRes int layoutResId) {
         this.layoutResId = layoutResId;
     }
 
     /**
      * 初始化子布局
      */
-    protected abstract void initLayoutResId();
+    protected abstract void initItemLayout();
 
     /**
      * 是否打开加载更多

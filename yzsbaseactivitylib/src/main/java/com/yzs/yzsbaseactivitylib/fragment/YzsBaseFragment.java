@@ -33,6 +33,8 @@ public abstract class YzsBaseFragment extends SupportFragment {
     public ImageView back;
     public TextView tv_menu;
     public ImageView iv_menu;
+    public View view;
+
 
     public YzsBaseFragment() { /* compiled code */ }
 
@@ -43,7 +45,7 @@ public abstract class YzsBaseFragment extends SupportFragment {
         if (null != getArguments()) {
             getBundleExtras(getArguments());
         }
-        View view = initContentView(inflater, container, savedInstanceState);
+        view = initContentView(inflater, container, savedInstanceState);
 //        initView(view);
         return view;
     }
@@ -51,7 +53,8 @@ public abstract class YzsBaseFragment extends SupportFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-//        initLogic();
+        initView(view);
+        initLogic();
     }
 
     // 初始化UI setContentView
@@ -59,10 +62,10 @@ public abstract class YzsBaseFragment extends SupportFragment {
                                             @Nullable Bundle savedInstanceState);
 
     // 初始化控件
-//    protected abstract void initView(View view);
+    protected abstract void initView(View view);
 
     // 逻辑处理
-//    protected abstract void initLogic();
+    protected abstract void initLogic();
 
 
     /**
