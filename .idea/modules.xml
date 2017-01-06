@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/YzsBaseActivity.iml" filepath="$PROJECT_DIR$/YzsBaseActivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/yzsbase/yzsbase.iml" filepath="$PROJECT_DIR$/yzsbase/yzsbase.iml" />
       <module fileurl="file://$PROJECT_DIR$/yzsbaseactivitylib/yzsbaseactivitylib.iml" filepath="$PROJECT_DIR$/yzsbaseactivitylib/yzsbaseactivitylib.iml" />
     </modules>
   </component>
