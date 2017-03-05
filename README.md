@@ -18,10 +18,10 @@
 
         在引用项目处添加
         dependencies {
-            compile 'com.github.yaozs:YzsBaseActivity:0.1.0'
+            compile 'com.github.yaozs:YzsBaseActivity:0.3.0'
         }
 
-        目前最新版本为0.1.0，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.3.0，就是最新的release版本，之后引用修改版本号就可以
 
   
         
@@ -33,6 +33,7 @@
         * 16.12.15 新增baseListActivity(列表数据视图base父类)，baseListFragment，新增导航条控件，更新demo整体效果，更像一个app
         * 16.12.21 新增YzsLoadingDialog,可自定义图片的loading动画
         * 16.12.22 新增YzsBaseHomeActivity(首页base父类)
+        * 17.03.06 优化base方法名，新增demo方便查看
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />
