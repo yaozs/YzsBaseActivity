@@ -18,10 +18,10 @@
 
         在引用项目处添加
         dependencies {
-            compile 'com.github.yaozs:YzsBaseActivity:0.3.0'
+            compile 'com.github.yaozs:YzsBaseActivity:0.3.1'
         }
 
-        目前最新版本为0.3.0，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.3.1，就是最新的release版本，之后引用修改版本号就可以
 
   
         
