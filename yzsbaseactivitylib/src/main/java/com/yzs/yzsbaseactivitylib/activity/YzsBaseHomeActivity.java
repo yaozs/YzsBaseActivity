@@ -138,7 +138,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
         //加载mFragments
         if (getBundle() == null) {
             //加载mFragments
-            loadMultipleRootFragment(R.id.yzs_base_tabLayout_frameLayout, 1, mFragments);
+            loadMultipleRootFragment(R.id.yzs_base_tabLayout_frameLayout, initChooseTab, mFragments);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
             for (int i = 0; i < mFragments.length; i++) {
@@ -153,6 +153,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
      */
     private void initViewpagerAdapter() {
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(mFragments.length - 1);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -175,6 +176,7 @@ public abstract class YzsBaseHomeActivity extends YzsBaseActivity {
 
             }
         });
+
     }
 
     /**

@@ -49,7 +49,7 @@ public class IndexActivity extends YzsBaseHomeActivity {
         setmIconSelectIds(mIconSelectIds);
         setmIconUnSelectIds(mIconUnselectIds);
         setmTitles(mTitles);
-        setInitChooseTab(1);
+        setInitChooseTab(0);
     }
 
     @Override

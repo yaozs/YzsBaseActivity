@@ -34,6 +34,7 @@
         * 16.12.21 新增YzsLoadingDialog,可自定义图片的loading动画
         * 16.12.22 新增YzsBaseHomeActivity(首页base父类)
         * 17.03.06 优化base方法名，新增demo方便查看
+        * 17.03.09 修复YzsBaseHomeActivity使用framelayout初始化选中，设置首页缓存数量（依然支持懒加载）
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />
