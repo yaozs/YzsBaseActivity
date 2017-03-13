@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yzs.yzsbaseactivitylib.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.loading.LoadingDialog;
 import com.yzs.yzsbaseactivitylib.util.ToastUtils;
@@ -30,7 +31,6 @@ public abstract class YzsBaseFragment extends SupportFragment {
 
     public Toolbar mToolbar;
     public TextView title;
-    public ImageView back;
     public TextView tv_menu;
     public ImageView iv_menu;
     public View view;
@@ -53,7 +53,12 @@ public abstract class YzsBaseFragment extends SupportFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        if (null != mToolbar) {
+            initTitle();
+        }
         initView(view);
+
         initLogic();
     }
 
@@ -66,6 +71,13 @@ public abstract class YzsBaseFragment extends SupportFragment {
 
     // 逻辑处理
     protected abstract void initLogic();
+
+    protected void initTitle() {
+        title = (TextView) view.findViewById(R.id.toolbar_title);
+        iv_menu = (ImageView) view.findViewById(R.id.toolbar_iv_menu);
+        tv_menu = (TextView) view.findViewById(R.id.toolbar_tv_menu);
+
+    }
 
 
     /**
