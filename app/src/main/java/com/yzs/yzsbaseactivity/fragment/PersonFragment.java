@@ -2,10 +2,15 @@ package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
@@ -34,13 +39,27 @@ public class PersonFragment extends YzsBaseFragment {
         return view;
     }
 
+    ImageView imageView;
     @Override
     protected void initView(View view) {
-
+        TextView textView = (TextView) view.findViewById(R.id.tv_person);
+         imageView = (ImageView) view.findViewById(R.id.iv_person);
+        Log.e(TAG, "11111111111111");
+        textView.setText("0000000");
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "oooooo", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        imageView.setImageResource(R.mipmap.icon);
     }
+
 
     @Override
     protected void initLogic() {
+        Glide.with(this).
+                load("http://f.hiphotos.baidu.com/image/h%3D200/sign=357261e548086e0675a8384b320a7b5a/5ab5c9ea15ce36d358d27ee43ef33a87e850b114.jpg").into(imageView);
 
     }
 
