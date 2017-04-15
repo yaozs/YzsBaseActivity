@@ -62,7 +62,7 @@ public abstract class YzsBaseActivity extends SupportActivity {
 
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
-            getBundleExtras(extras)
+            getBundleExtras(extras);
         }
         EventBus.getDefault().register(this);
         initContentView(savedInstanceState);
