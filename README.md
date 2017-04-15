@@ -18,10 +18,10 @@
 
         在引用项目处添加
         dependencies {
-            compile 'com.github.yaozs:YzsBaseActivity:0.3.2'
+            compile 'com.github.yaozs:YzsBaseActivity:0.3.3'
         }
 
-        目前最新版本为0.3.2，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.3.3，就是最新的release版本，之后引用修改版本号就可以
 
   
         
@@ -36,6 +36,7 @@
         * 17.03.06 优化base方法名，新增demo方便查看
         * 17.03.09 修复YzsBaseHomeActivity使用framelayout初始化选中，设置首页缓存数量（依然支持懒加载）
         * 17.03.13 增加basefragment默认初始化tooblar
+        * 17.04.15 更改部分list界面方法，修改baseFragment为默认注册eventbus
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />

@@ -35,6 +35,6 @@ dependencies {
     //事件总线
     compile 'org.greenrobot:eventbus:3.0.0'
     //RecyclerView的强大的BaseAdapter
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.9'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
     compile 'com.android.support:recyclerview-v7:25.0.1'
 }

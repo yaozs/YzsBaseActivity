@@ -8,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.yzs.yzsbaseactivitylib.R;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
  * Description:  普通list的baseActivity
  * Date: 2016/12/15
  */
-public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
+public abstract class YzsBaseListActivity<T> extends YzsBaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
     private static final String TAG = "YzsBaseListActivity";
     /**
      * 普通list布局
@@ -33,8 +34,6 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
      * 瀑布流布局
      */
     protected static final int STAGGERED_GRID_LAYOUT_MANAGER = 2;
-
-
     /**
      * 默认为0单行布局
      */
@@ -56,6 +55,15 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
      */
     private int layoutResId = -1;
 
+    private LoadMoreView loadMoreView;
+    /**
+     * 每页数量  默认10
+     */
+    private int pageSize = 10;
+
+    public int getPageSize() {
+        return pageSize;
+    }
 
     @Override
     protected void initView() {
@@ -66,10 +74,53 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
             throw new RuntimeException("layoutResId is null!");
         }
         mAdapter = new YzsListAdapter(layoutResId, new ArrayList<T>());
+        initSetting();
+        mAdapter.setLoadMoreView(getLoadMoreView());
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
+    /**
+     * 设置每页数量（开启loading才会使用）
+     *
+     * @param pageSize 每页数量
+     */
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    /**
+     * 设置load界面的多种状态 没有更多、loading、加载失败三种三种状态
+     *
+     * @param loadMoreView load界面多状态布局
+     */
+    protected void setLoadMordTypeLayout(LoadMoreView loadMoreView) {
+        this.loadMoreView = loadMoreView;
+    }
+
+    public LoadMoreView getLoadMoreView() {
+        return loadMoreView == null ? new LoadMoreView() {
+            @Override
+            public int getLayoutId() {
+                return R.layout.quick_view_load_more;
+            }
+
+            @Override
+            protected int getLoadingViewId() {
+                return R.id.load_more_loading_view;
+            }
+
+            @Override
+            protected int getLoadFailViewId() {
+                return R.id.load_more_load_fail_view;
+            }
+
+            @Override
+            protected int getLoadEndViewId() {
+                return R.id.load_more_load_end_view;
+            }
+        } : loadMoreView;
+    }
 
     /**
      * 设置子布局layout
@@ -86,17 +137,24 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
     protected abstract void initItemLayout();
 
     /**
+     * 初始化各种状态处理
+     * 在这个方法里处理的是recyclerview的所有的初始化，
+     * 包括对他的展示形式，是list或grid或瀑布流
+     */
+    protected abstract void initSetting();
+
+    /**
      * 是否打开加载更多
      */
-    protected void openLoadMoreSize(boolean loadMore) {
-        mAdapter.loadMoreEnd(loadMore);
+    public void openLoadMore() {
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
     }
 
     /**
      * @param type       布局管理type
      * @param isVertical 是否是垂直的布局 ，true垂直布局，false横向布局
      */
-    protected void setListType(int type, boolean isVertical) {
+    public void setListType(int type, boolean isVertical) {
         mListType = type;
         mIsVertical = isVertical;
     }
@@ -152,6 +210,16 @@ public abstract class YzsBaseListActivity<T> extends YzsBaseActivity {
      * @param t              泛型T
      */
     protected abstract void MyHolder(BaseViewHolder baseViewHolder, T t);
+
+    @Override
+    public void onLoadMoreRequested() {
+        loadingMoreLister();
+    }
+
+    /**
+     * adapter的加载更多监听
+     */
+    protected abstract void loadingMoreLister();
 
 
     public class YzsListAdapter extends BaseQuickAdapter<T, BaseViewHolder> {

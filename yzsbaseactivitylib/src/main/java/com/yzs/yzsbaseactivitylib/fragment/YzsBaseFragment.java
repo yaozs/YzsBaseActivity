@@ -15,6 +15,7 @@ import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.loading.LoadingDialog;
 import com.yzs.yzsbaseactivitylib.util.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import me.yokeyword.fragmentation.SupportFragment;
@@ -42,6 +43,7 @@ public abstract class YzsBaseFragment extends SupportFragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         if (null != getArguments()) {
             getBundleExtras(getArguments());
         }
@@ -252,5 +254,9 @@ public abstract class YzsBaseFragment extends SupportFragment {
         startActivityForResult(intent, requestCode);
     }
 
-
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
+    }
 }
