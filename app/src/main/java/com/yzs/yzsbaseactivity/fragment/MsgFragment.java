@@ -93,6 +93,7 @@ public class MsgFragment extends YzsBaseListFragment<DemoListBean> implements Sw
     protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_msg, container, false);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_fg_msg);
+        refreshLayout.setOnRefreshListener(this);
         return view;
     }
 
