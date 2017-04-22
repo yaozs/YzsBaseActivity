@@ -37,6 +37,8 @@
         * 17.03.09 修复YzsBaseHomeActivity使用framelayout初始化选中，设置首页缓存数量（依然支持懒加载）
         * 17.03.13 增加basefragment默认初始化tooblar
         * 17.04.15 更改部分list界面方法，修改baseFragment为默认注册eventbus
+        * 17.04.22 增加activity栈管理器，采用弱引用方式，使管理器更加安全，删除base中loading方法和toast方法，可以直接使用utils进行操作，更加便捷，
+                   将跳转页面方法拆分，变为ActivityGoUtils
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />

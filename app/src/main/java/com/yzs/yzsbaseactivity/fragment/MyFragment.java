@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
+import com.yzs.yzsbaseactivitylib.util.LoadingDialogUtils;
 
 
 /**
@@ -70,14 +71,14 @@ public class MyFragment extends YzsBaseFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        showLoadingDialog();
+        LoadingDialogUtils.showLoadingDialog();
         Log.e("第" + num + "MyFragment", num + "initLogic");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 //                textView.setText("第" + num + "MyFragment");
 //                progressBar.setVisibility(View.GONE);
-                cancelLoadingDialog();
+                LoadingDialogUtils.cancelLoadingDialog();
             }
         }, 2000);
     }

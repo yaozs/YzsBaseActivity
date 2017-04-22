@@ -1,6 +1,5 @@
 package com.yzs.yzsbaseactivitylib.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.yzs.yzsbaseactivitylib.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
-import com.yzs.yzsbaseactivitylib.loading.LoadingDialog;
-import com.yzs.yzsbaseactivitylib.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -110,149 +107,6 @@ public abstract class YzsBaseFragment extends SupportFragment {
      */
     protected abstract void onEventComing(EventCenter center);
 
-    /**
-     * 显示默认加载动画 默认加载文字
-     */
-    protected void showLoadingDialog() {
-        LoadingDialog.showLoadingDialog(getActivity());
-    }
-
-    /**
-     * 显示加载动画 默认加载文字
-     *
-     * @param type
-     */
-    protected void showLoadingDialog(int type) {
-        LoadingDialog.showLoadingDialog(getActivity(), type);
-    }
-
-    /**
-     * 显示加载动画 默认加载文字，自定义图片
-     *
-     * @param type
-     */
-    protected void showLoadingDialog(int type, int drawableId) {
-        LoadingDialog.showLoadingDialog(getActivity(), type, drawableId);
-    }
-
-    /**
-     * 显示默认加载动画 自定义加载文字
-     *
-     * @param str
-     */
-    protected void showLoadingDialog(String str) {
-        LoadingDialog.showLoadingDialog(getActivity(), str);
-    }
-
-    /**
-     * 显示加载动画 自定义加载文字
-     *
-     * @param type
-     * @param str
-     */
-    protected void showLoadingDialog(int type, String str) {
-        LoadingDialog.showLoadingDialog(getActivity(), type, str);
-    }
-
-    /**
-     * 显示加载动画 自定义加载文字 自定义图片(只对YzsDialog有效果)
-     *
-     * @param type
-     * @param str
-     */
-    protected void showLoadingDialog(int type, String str, int drawable) {
-        LoadingDialog.showLoadingDialog(getActivity(), type, str, drawable);
-    }
-
-    /**
-     * 取消加载动画
-     */
-    protected void cancelLoadingDialog() {
-        LoadingDialog.cancelLoadingDialog();
-    }
-
-    //Toast显示
-    protected void showShortToast(String string) {
-        ToastUtils.showShortToast(getActivity(), string);
-    }
-
-    protected void showShortToast(int stringId) {
-        ToastUtils.showShortToast(getActivity(), stringId);
-    }
-
-    protected void showLongToast(String string) {
-        ToastUtils.showShortToast(getActivity(), string);
-    }
-
-    protected void showLongToast(int stringId) {
-        ToastUtils.showShortToast(getActivity(), stringId);
-    }
-
-    /**
-     * startActivity
-     *
-     * @param clazz 目标Activity
-     */
-    protected void readyGo(Class<?> clazz) {
-        Intent intent = new Intent(getActivity(), clazz);
-        startActivity(intent);
-    }
-
-    /**
-     * startActivity with bundle
-     *
-     * @param clazz  目标Activity
-     * @param bundle 数据
-     */
-    protected void readyGo(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(getActivity(), clazz);
-        if (null != bundle) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
-    }
-
-    /**
-     * @param clazz 目标Activity
-     */
-    protected void readyGoThenKill(Class<?> clazz) {
-        readyGoThenKill(clazz, null);
-    }
-
-    /**
-     * @param clazz  目标Activity
-     * @param bundle 数据
-     */
-    protected void readyGoThenKill(Class<?> clazz, Bundle bundle) {
-        readyGo(clazz, bundle);
-        getActivity().finish();
-    }
-
-    /**
-     * startActivityForResult
-     *
-     * @param clazz       目标Activity
-     * @param requestCode 发送判断值
-     */
-    protected void readyGoForResult(Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(getActivity(), clazz);
-        startActivityForResult(intent, requestCode);
-    }
-
-    /**
-     * startActivityForResult with bundle
-     *
-     * @param clazz       目标Activity
-     * @param requestCode 发送判断值
-     * @param bundle      数据
-     */
-    protected void readyGoForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(getActivity(), clazz);
-        if (null != bundle) {
-            intent.putExtras(bundle);
-        }
-        startActivityForResult(intent, requestCode);
-    }
 
     @Override
     public void onDestroyView() {

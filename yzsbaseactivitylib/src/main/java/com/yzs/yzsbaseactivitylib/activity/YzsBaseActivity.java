@@ -1,7 +1,7 @@
 package com.yzs.yzsbaseactivitylib.activity;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import com.yzs.yzsbaseactivitylib.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
-import com.yzs.yzsbaseactivitylib.loading.LoadingDialog;
+import com.yzs.yzsbaseactivitylib.util.ActivityStackManager;
 import com.yzs.yzsbaseactivitylib.util.SystemBarTintManager;
-import com.yzs.yzsbaseactivitylib.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.lang.ref.WeakReference;
 
 import me.yokeyword.fragmentation.SupportActivity;
 
@@ -52,6 +53,7 @@ public abstract class YzsBaseActivity extends SupportActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityStackManager.getInstance().addActivity(new WeakReference<Activity>(this));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -165,156 +167,13 @@ public abstract class YzsBaseActivity extends SupportActivity {
     protected abstract void onEventComing(EventCenter center);
 
 
-    /**
-     * 显示默认加载动画 默认加载文字
-     */
-    protected void showLoadingDialog() {
-        LoadingDialog.showLoadingDialog(this);
-    }
-
-    /**
-     * 显示加载动画 默认加载文字
-     *
-     * @param type
-     */
-    protected void showLoadingDialog(int type) {
-        LoadingDialog.showLoadingDialog(this, type);
-    }
-
-    /**
-     * 显示加载动画 默认加载文字，自定义图片
-     *
-     * @param type
-     */
-    protected void showLoadingDialog(int type, int drawableId) {
-        LoadingDialog.showLoadingDialog(this, type, drawableId);
-    }
-
-    /**
-     * 显示默认加载动画 自定义加载文字
-     *
-     * @param str
-     */
-    protected void showLoadingDialog(String str) {
-        LoadingDialog.showLoadingDialog(this, str);
-    }
-
-    /**
-     * 显示加载动画 自定义加载文字
-     *
-     * @param type
-     * @param str
-     */
-    protected void showLoadingDialog(int type, String str) {
-        LoadingDialog.showLoadingDialog(this, type, str);
-    }
-
-    /**
-     * 显示加载动画 自定义加载文字 自定义图片(只对YzsDialog有效果)
-     *
-     * @param type
-     * @param str
-     */
-    protected void showLoadingDialog(int type, String str, int drawable) {
-        LoadingDialog.showLoadingDialog(this, type, str, drawable);
-    }
-
-    /**
-     * 取消加载动画
-     */
-    protected void cancelLoadingDialog() {
-        LoadingDialog.cancelLoadingDialog();
-    }
-
-    //Toast显示
-    protected void showShortToast(String string) {
-        ToastUtils.showShortToast(this, string);
-    }
-
-    protected void showShortToast(int stringId) {
-        ToastUtils.showShortToast(this, stringId);
-    }
-
-    protected void showLongToast(String string) {
-        ToastUtils.showShortToast(this, string);
-    }
-
-    protected void showLongToast(int stringId) {
-        ToastUtils.showShortToast(this, stringId);
-    }
-
-
     @Override
     protected void onDestroy() {
         emptyView = null;
         EventBus.getDefault().unregister(this);
+        ActivityStackManager.getInstance().removeActivity(new WeakReference<Activity>(this));
         super.onDestroy();
     }
 
 
-    /**
-     * 界面跳转
-     *
-     * @param clazz 目标Activity
-     */
-    protected void readyGo(Class<?> clazz) {
-        readyGo(clazz, null);
-    }
-
-    /**
-     * 跳转界面，  传参
-     *
-     * @param clazz  目标Activity
-     * @param bundle 数据
-     */
-    protected void readyGo(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(this, clazz);
-        if (null != bundle)
-            intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    /**
-     * 跳转界面并关闭当前界面
-     *
-     * @param clazz 目标Activity
-     */
-    protected void readyGoThenKill(Class<?> clazz) {
-        readyGoThenKill(clazz, null);
-    }
-
-    /**
-     * @param clazz  目标Activity
-     * @param bundle 数据
-     */
-    protected void readyGoThenKill(Class<?> clazz, Bundle bundle) {
-        readyGo(clazz, bundle);
-        finish();
-    }
-
-    /**
-     * startActivityForResult
-     *
-     * @param clazz       目标Activity
-     * @param requestCode 发送判断值
-     */
-    protected void readyGoForResult(Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(this, clazz);
-        startActivityForResult(intent, requestCode);
-    }
-
-    /**
-     * startActivityForResult with bundle
-     *
-     * @param clazz       目标Activity
-     * @param requestCode 发送判断值
-     * @param bundle      数据
-     */
-    protected void readyGoForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(this, clazz);
-        if (null != bundle) {
-            intent.putExtras(bundle);
-        }
-        startActivityForResult(intent, requestCode);
-    }
 }

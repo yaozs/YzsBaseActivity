@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.yzs.yzsbaseactivitylib.R;
+import com.yzs.yzsbaseactivitylib.util.LoadingDialogUtils;
 import com.yzs.yzsbaseactivitylib.util.StringUtils;
 
 
@@ -85,13 +86,13 @@ public abstract class YzsBaseWebActivity extends YzsBaseActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                showLoadingDialog();
+                LoadingDialogUtils.showLoadingDialog();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                cancelLoadingDialog();
+                LoadingDialogUtils.cancelLoadingDialog();
             }
 
             @Override
