@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import java.lang.ref.WeakReference;
-
 /**
  * Author 姚智胜
  * Version V1.0版本
@@ -39,8 +37,8 @@ public class ActivityGoUtils {
      *
      * @param clazz 目标Activity
      */
-    public void readyGo(Class<?> clazz) {
-        readyGo(clazz, null);
+    public void readyGo(Activity activity, Class<?> clazz) {
+        readyGo(activity, clazz, null);
     }
 
     /**
@@ -49,8 +47,7 @@ public class ActivityGoUtils {
      * @param clazz  目标Activity
      * @param bundle 数据
      */
-    public void readyGo(Class<?> clazz, Bundle bundle) {
-        Activity activity = ActivityStackManager.getInstance().getTopActivity();
+    public void readyGo(Activity activity, Class<?> clazz, Bundle bundle) {
         if (null == activity) {
             Log.e("ActivityStackManager", "null==activity");
         } else {
@@ -66,17 +63,17 @@ public class ActivityGoUtils {
      *
      * @param clazz 目标Activity
      */
-    public void readyGoThenKill(Class<?> clazz) {
-        readyGoThenKill(clazz, null);
+    public void readyGoThenKill(Activity activity, Class<?> clazz) {
+        readyGoThenKill(activity, clazz, null);
     }
 
     /**
      * @param clazz  目标Activity
      * @param bundle 数据
      */
-    public void readyGoThenKill(Class<?> clazz, Bundle bundle) {
-        readyGo(clazz, bundle);
-        ActivityStackManager.getInstance().getTopActivity().finish();
+    public void readyGoThenKill(Activity activity, Class<?> clazz, Bundle bundle) {
+        readyGo(activity, clazz, bundle);
+        activity.finish();
     }
 
     /**
@@ -85,13 +82,14 @@ public class ActivityGoUtils {
      * @param clazz       目标Activity
      * @param requestCode 发送判断值
      */
-    public void readyGoForResult(Class<?> clazz, int requestCode) {
-        Activity activity = ActivityStackManager.getInstance().getTopActivity();
+    public void readyGoForResult(Activity activity, Class<?> clazz, int requestCode) {
+
         if (null == activity) {
             Log.e("ActivityStackManager", "null==activity");
         } else {
             Intent intent = new Intent(activity, clazz);
-            ActivityStackManager.getInstance().getTopActivity().startActivityForResult(intent, requestCode);
+            activity.startActivityForResult(intent, requestCode);
+
         }
 
     }
@@ -103,12 +101,12 @@ public class ActivityGoUtils {
      * @param requestCode 发送判断值
      * @param bundle      数据
      */
-    public void readyGoForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(ActivityStackManager.getInstance().getTopActivity(), clazz);
+    public void readyGoForResult(Activity activity, Class<?> clazz, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(activity, clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
-        ActivityStackManager.getInstance().getTopActivity().startActivityForResult(intent, requestCode);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -117,9 +115,9 @@ public class ActivityGoUtils {
      * @param clazz       目标Activity
      * @param requestCode 发送判断值
      */
-    public void readyGoForResult(WeakReference<Fragment> fragment, Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(ActivityStackManager.getInstance().getTopActivity(), clazz);
-        fragment.get().startActivityForResult(intent, requestCode);
+    public void readyGoForResult(Activity activity, Fragment fragment, Class<?> clazz, int requestCode) {
+        Intent intent = new Intent(activity, clazz);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -129,12 +127,12 @@ public class ActivityGoUtils {
      * @param requestCode 发送判断值
      * @param bundle      数据
      */
-    public void readyGoForResult(WeakReference<Fragment> fragment, Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(ActivityStackManager.getInstance().getTopActivity(), clazz);
+    public void readyGoForResult(Activity activity, Fragment fragment, Class<?> clazz, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(activity, clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
-        fragment.get().startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
 

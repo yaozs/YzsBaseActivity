@@ -5,8 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yzs.yzsbaseactivity.activity.MainActivity">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"

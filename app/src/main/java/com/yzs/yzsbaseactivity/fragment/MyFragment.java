@@ -1,19 +1,13 @@
 package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivitylib.entity.EventCenter;
-import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
-import com.yzs.yzsbaseactivitylib.util.LoadingDialogUtils;
+import com.yzs.yzsbaseactivity.base.BaseFragment;
+import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 
 
 /**
@@ -22,81 +16,65 @@ import com.yzs.yzsbaseactivitylib.util.LoadingDialogUtils;
  * Description:
  * Date: 2016/12/28.
  */
-public class MyFragment extends YzsBaseFragment {
-    private static final String TAG = "MyFragment";
-    TextView textView;
-    Handler handler = new Handler();
-    ProgressBar progressBar;
-    private int num;
+public class MyFragment extends BaseFragment {
 
-    private int aa;
-
-    public static MyFragment newInstance(Bundle args) {
+    public static MyFragment newInstance() {
+        
+        Bundle args = new Bundle();
+        
         MyFragment fragment = new MyFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
-
+  
     @Override
-    protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e("第" + num + "MyFragment", num + "initContentView");
-        View view = inflater.inflate(R.layout.my_fragment, container, false);
-//        view.findViewById(R.id.textview);
-        initView(view);
-        return view;
-    }
-
-    //    @Override
-    protected void initView(View view) {
-        textView = (TextView) view.findViewById(R.id.textview);
-        textView.setText("第" + num + "MyFragment");
-//        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-//        progressBar.setVisibility(View.VISIBLE);
+    protected void immersionInit() {
+        super.immersionInit();
+        Log.e("222222222222", "11111111111");
+        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
+                .statusBarDarkFont(true, 0.2f)
+                .statusBarColor(R.color.md_yellow_200)
+                .navigationBarColor(R.color.md_yellow_200)
+                .init();
     }
 
     @Override
     protected void initLogic() {
-
+        setTitle("MyFragment");
     }
-//
-////    @Override
-////    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-////        super.onLazyInitView(savedInstanceState);
-//
-////
-////    }
-
 
     @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-        LoadingDialogUtils.showLoadingDialog();
-        Log.e("第" + num + "MyFragment", num + "initLogic");
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                textView.setText("第" + num + "MyFragment");
-//                progressBar.setVisibility(View.GONE);
-                LoadingDialogUtils.cancelLoadingDialog();
-            }
-        }, 2000);
+    public void initPresenter() {
+
     }
 
-//    @Override
-//    protected void initLogic() {
-//
-//    }
+    @Override
+    public boolean openEventBus() {
+        return false;
+    }
 
+    @Override
+    public boolean showToolBar() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.item_list_demo;
+    }
+
+    @Override
+    protected void initView(View rootView) {
+
+    }
+
+    @Override
+    protected void EventBean(BaseEventBusBean event) {
+
+    }
 
     @Override
     protected void getBundleExtras(Bundle bundle) {
-        num = bundle.getInt("num", -1);
-        Log.e("第" + num + "MyFragment", num + "getBundleExtras");
-    }
-
-    @Override
-    protected void onEventComing(EventCenter center) {
 
     }
 

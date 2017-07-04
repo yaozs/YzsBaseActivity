@@ -1,11 +1,10 @@
 package com.yzs.yzsbaseactivitylib.util;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 import com.yzs.yzsbaseactivitylib.dialog.ProgressDialog;
 import com.yzs.yzsbaseactivitylib.dialog.YzsLoadingDialog;
-import com.yzs.yzsbaseactivitylib.util.ActivityStackManager;
 
 
 /**
@@ -31,55 +30,55 @@ public class LoadingDialogUtils {
     /**
      * 载入loading，使用默认提示词
      */
-    public static void showLoadingDialog(int type) {
+    public static void showLoadingDialog(Activity activity, int type) {
 
-        showLoadingDialog(type, null, 0);
+        showLoadingDialog(activity, type, null, 0);
 
     }
 
     /**
      * 载入loading，使用自定义提示词
      */
-    public static void showLoadingDialog(int type, String message) {
+    public static void showLoadingDialog(Activity activity, int type, String message) {
 
-        showLoadingDialog(type, message, 0);
+        showLoadingDialog(activity, type, message, 0);
 
     }
 
     /**
      * 载入loading，使用默认提示词，自定义图片
      */
-    public static void showLoadingDialog(int type, int drawableId) {
+    public static void showLoadingDialog(Activity activity, int type, int drawableId) {
 
-        showLoadingDialog(type, null, drawableId);
+        showLoadingDialog(activity, type, null, drawableId);
 
     }
 
     /**
      * 载入loading，使用自定义提示词,自定义图片(只对YzsLoadingDialog有效果)
      */
-    public static void showLoadingDialog(int type, String message, int drawableId) {
+    public static void showLoadingDialog(Activity activity, int type, String message, int drawableId) {
 
         switch (type) {
             case PROGRESS_LOADING:
-                showProgressLoading(message);
+                showProgressLoading(activity, message);
                 break;
 
             case YZS_LOADING:
-                showYzsLoading(message, drawableId);
+                showYzsLoading(activity, message, drawableId);
                 break;
 
             default:
-                showProgressLoading(message);
+                showProgressLoading(activity, message);
                 break;
         }
     }
 
 
-    private static void showProgressLoading() {
+    private static void showProgressLoading(Activity activity) {
         try {
             if (progressDialog == null) {
-                progressDialog = new ProgressDialog(ActivityStackManager.getInstance().getTopActivity(), "请稍候");
+                progressDialog = new ProgressDialog(activity, "请稍候");
             }
             progressDialog.setCancelable(false);
 
@@ -89,10 +88,10 @@ public class LoadingDialogUtils {
         }
     }
 
-    private static void showProgressLoading(String message) {
+    private static void showProgressLoading(Activity activity, String message) {
         try {
             if (progressDialog == null) {
-                progressDialog = new ProgressDialog(ActivityStackManager.getInstance().getTopActivity(), null == message ? "请稍候" : message);
+                progressDialog = new ProgressDialog(activity, null == message ? "请稍候" : message);
             }
             progressDialog.setCancelable(false);
 
@@ -102,10 +101,10 @@ public class LoadingDialogUtils {
         }
     }
 
-    private static void showYzsLoading() {
+    private static void showYzsLoading(Activity activity) {
         try {
             if (yzsLoadingDialog == null) {
-                yzsLoadingDialog = new YzsLoadingDialog(ActivityStackManager.getInstance().getTopActivity(), "请稍候");
+                yzsLoadingDialog = new YzsLoadingDialog(activity, "请稍候");
             }
             yzsLoadingDialog.setCancelable(false);
             yzsLoadingDialog.show();
@@ -114,10 +113,10 @@ public class LoadingDialogUtils {
         }
     }
 
-    private static void showYzsLoading(String message) {
+    private static void showYzsLoading(Activity activity, String message) {
         try {
             if (yzsLoadingDialog == null) {
-                yzsLoadingDialog = new YzsLoadingDialog(ActivityStackManager.getInstance().getTopActivity(), message);
+                yzsLoadingDialog = new YzsLoadingDialog(activity, message);
             }
             yzsLoadingDialog.setCancelable(false);
             yzsLoadingDialog.show();
@@ -126,10 +125,10 @@ public class LoadingDialogUtils {
         }
     }
 
-    private static void showYzsLoading(int drawableId) {
+    private static void showYzsLoading(Activity activity, int drawableId) {
         try {
             if (yzsLoadingDialog == null) {
-                yzsLoadingDialog = new YzsLoadingDialog(ActivityStackManager.getInstance().getTopActivity(), ActivityStackManager.getInstance().getTopActivity().getResources().getDrawable(drawableId));
+                yzsLoadingDialog = new YzsLoadingDialog(activity,activity.getResources().getDrawable(drawableId));
                 Log.e(TAG, "初始化YzsLoading");
             }
             yzsLoadingDialog.setCancelable(false);
@@ -140,13 +139,13 @@ public class LoadingDialogUtils {
         }
     }
 
-    private static void showYzsLoading(String message, int drawableId) {
+    private static void showYzsLoading(Activity activity, String message, int drawableId) {
         try {
             if (yzsLoadingDialog == null && drawableId != 0) {
-                yzsLoadingDialog = new YzsLoadingDialog(ActivityStackManager.getInstance().getTopActivity(), message, ActivityStackManager.getInstance().getTopActivity().getResources().
+                yzsLoadingDialog = new YzsLoadingDialog(activity, message, activity.getResources().
                         getDrawable(drawableId));
             } else {
-                yzsLoadingDialog = new YzsLoadingDialog(ActivityStackManager.getInstance().getTopActivity(), message);
+                yzsLoadingDialog = new YzsLoadingDialog(activity, message);
             }
             yzsLoadingDialog.setCancelable(false);
             yzsLoadingDialog.show();
@@ -159,8 +158,8 @@ public class LoadingDialogUtils {
     /**
      * 默认载入loading
      */
-    public static void showLoadingDialog() {
-        showLoadingDialog(PROGRESS_LOADING);
+    public static void showLoadingDialog(Activity activity) {
+        showLoadingDialog(activity, PROGRESS_LOADING);
     }
 
 
@@ -169,9 +168,9 @@ public class LoadingDialogUtils {
      *
      * @param message
      */
-    public static void showLoadingDialog(String message) {
+    public static void showLoadingDialog(Activity activity, String message) {
 
-        showLoadingDialog(PROGRESS_LOADING, message);
+        showLoadingDialog(activity, PROGRESS_LOADING, message);
     }
 
     /**

@@ -39,12 +39,15 @@
         * 17.04.15 更改部分list界面方法，修改baseFragment为默认注册eventbus
         * 17.04.22 增加activity栈管理器，采用弱引用方式，使管理器更加安全，删除base中loading方法和toast方法，可以直接使用utils进行操作，更加便捷，
                    将跳转页面方法拆分，变为ActivityGoUtils
+        * 17.04.22 重大更新。。。修改activity栈管理器，重构项目，兼容mvp模式与mvc模式，继续提供list界面和home界面的支持，
+            list界面托管模式开启，全新架构，最少使用activity，采用ImmersionBar解决沉浸式方案，eventbus一键开启关闭
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />
 2.[fragmentation——为"单Activity ＋ 多Fragment","多模块Activity + 多Fragment"架构而生,替代官方fragment](https://github.com/YoKeyword/Fragmentation)<br />
 3.[eventbus——事件总线](https://github.com/greenrobot/EventBus)<br />
 4.[BaseRecyclerViewAdapterHelper——RecyclerView的强大的BaseAdapter](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)<br />
+5.[android 4.4以上沉浸式状态栏和沉浸式导航栏管理，一句代码轻松实现](https://github.com/gyf-dev/ImmersionBar)<br />
 
 
 本项目中使用其他的开源项目和参考修改，都会在近期更新出来，保护程序猿，就是保护我们自己O(∩_∩)O哈哈~

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="toolbar" type="id" />
-    <item name="toolbar_back" type="id" />
-    <item name="toolbar_title" type="id" />
-    <item name="toolbar_layout_menu" type="id" />
-    <item name="toolbar_iv_menu" type="id" />
-    <item name="toolbar_tv_menu" type="id" />
+
+    <!-- 沉浸式使用view的id -->
+    <item name="yzs_view" type="id" />
+
     <!-- 使用baselist需要使用的id -->
     <item name="yzs_base_list" type="id" />
+    <item name="yzs_base_refreshLayout" type="id" />
     <!-- 使用YzsBaseHomeActivity需要使用的id -->
     <item name="yzs_base_tabLayout" type="id" />
     <item name="yzs_base_tabLayout_viewPager" type="id" />

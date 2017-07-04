@@ -1,25 +1,17 @@
 package com.yzs.yzsbaseactivity.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivity.bean.DemoListBean;
+import com.yzs.yzsbaseactivity.base.BaseListNoMvpFragment;
 import com.yzs.yzsbaseactivity.layout.CustomLoadMoreView;
-import com.yzs.yzsbaseactivitylib.entity.EventCenter;
-import com.yzs.yzsbaseactivitylib.fragment.YzsBaseListFragment;
-import com.yzs.yzsbaseactivitylib.line.DividerItemDecoration;
-import com.yzs.yzsbaseactivitylib.util.ActivityStackManager;
+import com.yzs.yzsbaseactivitylib.entity.BaseListType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,128 +23,143 @@ import java.util.List;
  * Description: ListFragment的demo（与activity几乎同样用法）
  * Date: 2016/12/15.
  */
-public class MsgFragment extends YzsBaseListFragment<DemoListBean> implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String TAG = "MsgFragment";
+public class MsgFragment extends BaseListNoMvpFragment<String> {
 
-    private SwipeRefreshLayout refreshLayout;
+    private int pageSize = 20;
+
+    private Button button;
+
+    private boolean isGrid = true;
     /**
-     * 所有数据数量
+     * 模拟加载错误
      */
-    private static final int TOTAL_COUNTER = 36;
+    private boolean isFail = true;
 
-    private int mCurrentCounter = 0;
-
-    private boolean isErr;
-    private boolean mLoadMoreEndGone = false;
-
-    public static MsgFragment newInstance(Bundle bundle) {
+    public static MsgFragment newInstance() {
+        Bundle args = new Bundle();
         MsgFragment fragment = new MsgFragment();
-        if (null != bundle) {
-            fragment.setArguments(bundle);
-        }
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected void initItemLayout() {
-        setLayoutResId(R.layout.item_list_demo);
+    protected void immersionInit() {
+        super.immersionInit();
+        Log.e("44444444444444", "11111111111");
+        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
+                .statusBarDarkFont(true, 0.2f)
+                .statusBarColor(R.color.md_green_400)
+                .navigationBarColor(R.color.md_red_500)
+                .init();
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.fg_demo_change_list;
+    }
+
+    @Override
+    protected void initView(View view) {
+        super.initView(view);
+        button = (Button) view.findViewById(R.id.btn_change);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isGrid) {
+                    changeShowType(BaseListType.LINEAR_LAYOUT_MANAGER, true);
+                    isGrid = false;
+                } else {
+                    changeShowType(BaseListType.GRID_LAYOUT_MANAGER, true);
+                    isGrid = true;
+                }
+            }
+        });
+
+    }
+
+
+
+    @Override
+    protected void initLogic() {
+        setTitle("MsgFragment");
+        autoRefresh();
+    }
+
+    @Override
+    protected int initItemLayout() {
+        return R.layout.item_list_demo;
     }
 
     @Override
     protected void initSetting() {
-        setListType(LINEAR_LAYOUT_MANAGER, true);
-        //这个方法不设置就会使用默认值
-        setLoadMordTypeLayout(new CustomLoadMoreView());
-        setPageSize(10);
-        openLoadMore();
+        isOpenLoad(true, true);//是否开启加载和刷新
+        setListType(BaseListType.GRID_LAYOUT_MANAGER, true);//设置展示方式
+        setSpanCount(4);//为grid样式和瀑布流设置横向或纵向数量
+        setLoadMordTypeLayout(new CustomLoadMoreView());//可以不设置，有默认
     }
 
     @Override
-    protected void loadingMoreLister() {
-        refreshLayout.setEnabled(false);
-        //这是模拟数据逻辑为了展示各种状态
-        if (mAdapter.getData().size() < getPageSize()) {
-            mAdapter.loadMoreEnd(true);
-        } else {
-            if (mCurrentCounter >= TOTAL_COUNTER) {
-                mAdapter.loadMoreEnd(mLoadMoreEndGone);//true is gone,false is visible
-            } else {
-                if (isErr) {
-                    mAdapter.addData(addData());
-                    mCurrentCounter = mAdapter.getData().size();
-                    mAdapter.loadMoreComplete();
-                } else {
-                    isErr = true;
-                    Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_LONG).show();
-                    mAdapter.loadMoreFail();
+    protected void MyHolder(BaseViewHolder baseViewHolder, String s) {
+        baseViewHolder.setText(R.id.tv_item_test, s);
+    }
 
-                }
+    @Override
+    protected void refreshListener() {
+        setPage(1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                okRefresh();
+                mAdapter.setNewData(addData(getPage()));
             }
-            refreshLayout.setEnabled(true);
+        }, 1000);
+    }
+
+
+    @Override
+    protected void loadMoreListener() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (getPage() < 5) {
+                    if (isFail) {
+                        isFail = false;
+                        failLoadMore();
+                    } else {
+                        isFail = true;
+                        okLoadMore(true);
+                        mAdapter.addData(addData(getPage()));
+                    }
+                } else {
+                    okLoadMore(false);
+                    mAdapter.addData(addData(getPage()));
+                }
+
+            }
+        }, 1000);
+
+    }
+
+
+    private List<String> addData(int page) {
+        List<String> list = new ArrayList<>();
+        String string;
+        for (int i = 0; i < pageSize; i++) {
+            string = "第" + page + "页" + "第" + i + "个";
+            list.add(string);
         }
+        return list;
     }
 
     @Override
-    protected View initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_msg, container, false);
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_fg_msg);
-        refreshLayout.setOnRefreshListener(this);
-        return view;
+    public boolean showToolBar() {
+        return true;
     }
-
-    @Override
-    protected void initLogic() {
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), 1));
-        mAdapter.addData(addData());
-    }
-
 
     @Override
     protected void getBundleExtras(Bundle bundle) {
 
     }
-
-    @Override
-    protected void onEventComing(EventCenter center) {
-
-    }
-
-
-    @Override
-    protected void MyHolder(BaseViewHolder baseViewHolder, DemoListBean demoListBean) {
-        baseViewHolder.setText(R.id.tv_item_list_demo, demoListBean.getTitle());
-        ImageView iv = baseViewHolder.getView(R.id.iv_item_list_demo);
-        iv.setImageResource(R.mipmap.icon);
-    }
-
-    @Override
-    public void onRefresh() {
-        mAdapter.setEnableLoadMore(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.setNewData(addData());
-                isErr = false;
-                mCurrentCounter = getPageSize();
-                refreshLayout.setRefreshing(false);
-                mAdapter.setEnableLoadMore(true);
-                Activity activity = ActivityStackManager.getInstance().getTopActivity();
-                if (null == activity) {
-                    Log.e("ActivityStackManager", "null==activity");
-                }
-            }
-        }, 1000);
-    }
-
-    private List<DemoListBean> addData() {
-        List<DemoListBean> list = new ArrayList<>();
-        DemoListBean bean;
-        for (int i = 0; i < getPageSize(); i++) {
-            bean = new DemoListBean();
-            bean.setTitle("消息--------" + i);
-            list.add(bean);
-        }
-
-        return list;
-    }
 }
+
