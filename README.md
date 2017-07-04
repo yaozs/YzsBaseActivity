@@ -52,6 +52,9 @@
 4.[BaseRecyclerViewAdapterHelper——RecyclerView的强大的BaseAdapter](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)<br />
 5.[android 4.4以上沉浸式状态栏和沉浸式导航栏管理，一句代码轻松实现](https://github.com/gyf-dev/ImmersionBar)<br />
 
+### 本项目参考的开源项目
+1.[AndroidFire](https://github.com/jaydenxiao2016/AndroidFire)<br />
+
 
 本项目中使用其他的开源项目和参考修改，都会在近期更新出来，保护程序猿，就是保护我们自己O(∩_∩)O哈哈~
        
