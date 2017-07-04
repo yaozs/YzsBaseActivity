@@ -1,9 +1,11 @@
 package com.yzs.yzsbaseactivity.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.yzs.yzsbaseactivity.layout.CustomLoadMoreView;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseListFragment;
 import com.yzs.yzsbaseactivitylib.line.DividerItemDecoration;
+import com.yzs.yzsbaseactivitylib.util.ActivityStackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +136,10 @@ public class MsgFragment extends YzsBaseListFragment<DemoListBean> implements Sw
                 mCurrentCounter = getPageSize();
                 refreshLayout.setRefreshing(false);
                 mAdapter.setEnableLoadMore(true);
+                Activity activity = ActivityStackManager.getInstance().getTopActivity();
+                if (null == activity) {
+                    Log.e("ActivityStackManager", "null==activity");
+                }
             }
         }, 1000);
     }

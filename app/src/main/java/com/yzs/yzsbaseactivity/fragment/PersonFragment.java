@@ -1,5 +1,6 @@
 package com.yzs.yzsbaseactivity.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivitylib.entity.EventCenter;
 import com.yzs.yzsbaseactivitylib.fragment.YzsBaseFragment;
+import com.yzs.yzsbaseactivitylib.util.ActivityStackManager;
 
 
 /**
@@ -50,6 +52,10 @@ public class PersonFragment extends YzsBaseFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "oooooo", Toast.LENGTH_SHORT).show();
+                Activity activity = ActivityStackManager.getInstance().getTopActivity();
+                if (null == activity) {
+                    Log.e("ActivityStackManager", "null==activity");
+                }
             }
         });
 //        imageView.setImageResource(R.mipmap.icon);

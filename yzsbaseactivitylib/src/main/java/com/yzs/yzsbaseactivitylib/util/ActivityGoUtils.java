@@ -1,8 +1,10 @@
 package com.yzs.yzsbaseactivitylib.util;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -26,7 +28,9 @@ public class ActivityGoUtils {
      * @return AppManager实例
      */
     public static ActivityGoUtils getInstance() {
-        if (activityUtils == null) activityUtils = new ActivityGoUtils();
+        if (activityUtils == null) {
+            activityUtils = new ActivityGoUtils();
+        }
         return activityUtils;
     }
 
@@ -46,10 +50,15 @@ public class ActivityGoUtils {
      * @param bundle 数据
      */
     public void readyGo(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(ActivityStackManager.getInstance().getTopActivity(), clazz);
-        if (null != bundle)
-            intent.putExtras(bundle);
-        ActivityStackManager.getInstance().getTopActivity().startActivity(intent);
+        Activity activity = ActivityStackManager.getInstance().getTopActivity();
+        if (null == activity) {
+            Log.e("ActivityStackManager", "null==activity");
+        } else {
+            Intent intent = new Intent(activity, clazz);
+            if (null != bundle)
+                intent.putExtras(bundle);
+            activity.startActivity(intent);
+        }
     }
 
     /**
@@ -77,8 +86,14 @@ public class ActivityGoUtils {
      * @param requestCode 发送判断值
      */
     public void readyGoForResult(Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(ActivityStackManager.getInstance().getTopActivity(), clazz);
-        ActivityStackManager.getInstance().getTopActivity().startActivityForResult(intent, requestCode);
+        Activity activity = ActivityStackManager.getInstance().getTopActivity();
+        if (null == activity) {
+            Log.e("ActivityStackManager", "null==activity");
+        } else {
+            Intent intent = new Intent(activity, clazz);
+            ActivityStackManager.getInstance().getTopActivity().startActivityForResult(intent, requestCode);
+        }
+
     }
 
     /**
