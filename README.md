@@ -1,4 +1,7 @@
 # YzsBaseActivity
+[![](https://jitpack.io/v/yaozs/YzsBaseActivity.svg)](https://jitpack.io/#yaozs/YzsBaseActivity)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-YzsBaseActivity-green.svg?style=true)](https://android-arsenal.com/details/1/2756)
+
  ![image](https://github.com/yaozs/YzsLib/blob/master/app/src/main/res/mipmap-xxxhdpi/icon.png)<br />
 
 本项目为yzslib的一个分支，目的是为了方便大家使用，减少依赖，如果需要整个开发框架请移步<br />
@@ -18,7 +21,7 @@
 
         在引用项目处添加
         dependencies {
-            compile 'com.github.yaozs:YzsBaseActivity:0.3.3'
+             compile 'com.github.yaozs:YzsBaseActivity:0.4.0'
         }
 
         目前最新版本为0.3.3，就是最新的release版本，之后引用修改版本号就可以
@@ -39,7 +42,7 @@
         * 17.04.15 更改部分list界面方法，修改baseFragment为默认注册eventbus
         * 17.04.22 增加activity栈管理器，采用弱引用方式，使管理器更加安全，删除base中loading方法和toast方法，可以直接使用utils进行操作，更加便捷，
                    将跳转页面方法拆分，变为ActivityGoUtils
-        * 17.04.22 重大更新。。。修改activity栈管理器，重构项目，兼容mvp模式与mvc模式，继续提供list界面和home界面的支持，
+        * 17.07.04 重大更新。。。修改activity栈管理器，重构项目，兼容mvp模式与mvc模式，继续提供list界面和home界面的支持，
             list界面托管模式开启，全新架构，最少使用activity，采用ImmersionBar解决沉浸式方案，eventbus一键开启关闭
 
 ### 本项目使用开源项目
