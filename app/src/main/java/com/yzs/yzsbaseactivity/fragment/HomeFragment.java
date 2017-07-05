@@ -47,6 +47,12 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+
+    @Override
+    public boolean openEventBus() {
+        return true;
+    }
+
     @Override
     protected void initLogic() {
         setTitle("HomeFragment");

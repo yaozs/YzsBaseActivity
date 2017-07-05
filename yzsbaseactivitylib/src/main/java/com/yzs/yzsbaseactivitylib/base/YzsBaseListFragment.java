@@ -83,9 +83,9 @@ public abstract class YzsBaseListFragment<T extends BasePresenter, E extends Bas
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.yzs_base_refreshLayout);
         mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
         initSetting();
-        chooseListType(mListType, mIsVertical);
         mAdapter.setLoadMoreView(getLoadMoreView());
-        mRecyclerView.setAdapter(mAdapter);
+        chooseListType(mListType, mIsVertical);
+
         if (isOpenRefresh) {
             mRefreshLayout.setOnRefreshListener(this);
         }
@@ -204,6 +204,7 @@ public abstract class YzsBaseListFragment<T extends BasePresenter, E extends Bas
                 mRecyclerView.setLayoutManager(layoutManager);
                 break;
         }
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**

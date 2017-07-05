@@ -21,10 +21,14 @@
 
         在引用项目处添加
         dependencies {
-             compile 'com.github.yaozs:YzsBaseActivity:0.4.0'
+             compile 'com.github.yaozs:YzsBaseActivity:0.4.1'
         }
 
-        目前最新版本为0.3.3，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.4.1，就是最新的release版本，之后引用修改版本号就可以
+
+
+### 本项目采用的架构是 多Activity 多fragment的模块化架构，使用fragmentation作为底层进行的二次开发封装，使界面加载更加的快速，
+切换动画比ac更加容易控制等优点。具体使用详见demo
 
   
         
@@ -44,6 +48,8 @@
                    将跳转页面方法拆分，变为ActivityGoUtils
         * 17.07.04 重大更新。。。修改activity栈管理器，重构项目，兼容mvp模式与mvc模式，继续提供list界面和home界面的支持，
             list界面托管模式开启，全新架构，最少使用activity，采用ImmersionBar解决沉浸式方案，eventbus一键开启关闭
+        * 17.07.05 修复加载更多bug，添加showBackButton（显示返回方法）
+
 
 ### 本项目使用开源项目
 1.[FlycoTabLayout——viewpager指示器 与 导航栏控件](https://github.com/H07000223/FlycoTabLayout)<br />

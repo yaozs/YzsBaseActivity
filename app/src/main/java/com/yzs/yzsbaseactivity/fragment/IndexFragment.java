@@ -95,4 +95,15 @@ public class IndexFragment extends YzsBaseHomeFragment {
         setmTitles(mTitles);
         setInitChooseTab(0);
     }
+
+
+    @Override
+    public void initToolBar() {
+        super.initToolBar();
+    }
+
+    @Override
+    public int getToolBarResId() {
+        return super.getToolBarResId();
+    }
 }

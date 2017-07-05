@@ -92,6 +92,7 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
 
     @Override
     protected void initSetting() {
+
         isOpenLoad(true, true);//是否开启加载和刷新
         setListType(BaseListType.GRID_LAYOUT_MANAGER, true);//设置展示方式
         setSpanCount(4);//为grid样式和瀑布流设置横向或纵向数量

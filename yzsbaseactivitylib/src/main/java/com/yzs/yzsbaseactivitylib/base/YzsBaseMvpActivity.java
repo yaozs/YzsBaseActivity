@@ -71,6 +71,72 @@ public abstract class YzsBaseMvpActivity<T extends BasePresenter, E extends Base
         iv_rightTitle = (ImageView) mToolbar.findViewById(R.id.iv_toolbar_right);
     }
 
+    /**
+     * 显示返回按钮
+     */
+    public void showBackButton() {
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(R.drawable.base_toolbar_back);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(@DrawableRes int res) {
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(res);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(@DrawableRes int res, @Nullable View.OnClickListener listener) {
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(res);
+            if (listener != null) {
+                mToolbar.setNavigationOnClickListener(listener);
+            } else {
+                mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        finish();
+
+                    }
+                });
+            }
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(Drawable drawable, @Nullable View.OnClickListener listener) {
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(drawable);
+            if (listener != null) {
+                mToolbar.setNavigationOnClickListener(listener);
+            } else {
+                mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+
+                    }
+                });
+            }
+
+        }
+    }
+
     public void setRightTitle(String string, View.OnClickListener listener) {
         if (null != tv_rightTitle) {
             tv_rightTitle.setText(string);
@@ -128,20 +194,6 @@ public abstract class YzsBaseMvpActivity<T extends BasePresenter, E extends Base
      */
     public abstract void initImmersion();
 
-    /**
-     * 显示返回按钮
-     */
-    public void showBackButton() {
-        if (mToolbar != null) {
-            mToolbar.setNavigationIcon(R.drawable.base_toolbar_back);
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
-    }
 
     @Override
     public int getToolBarResId() {

@@ -88,6 +88,83 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
 
     }
 
+    //显示返回按钮
+    public void showBackButton() {
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(R.drawable.base_toolbar_back);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (_mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                        pop();
+                    } else {
+                        _mActivity.finish();
+                    }
+                }
+            });
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(@DrawableRes int res) {
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(res);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (_mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                        pop();
+                    } else {
+                        _mActivity.finish();
+                    }
+                }
+            });
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(@DrawableRes int res, @Nullable View.OnClickListener listener) {
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(res);
+            if (listener != null) {
+                toolbar.setNavigationOnClickListener(listener);
+            } else {
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (_mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                            pop();
+                        } else {
+                            _mActivity.finish();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    //显示返回按钮
+    public void showBackButton(Drawable drawable, @Nullable View.OnClickListener listener) {
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(drawable);
+            if (listener != null) {
+                toolbar.setNavigationOnClickListener(listener);
+            } else {
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (_mActivity.getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                            pop();
+                        } else {
+                            _mActivity.finish();
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+
     public void setRightTitle(String string, View.OnClickListener listener) {
         if (null != tv_rightTitle) {
             tv_rightTitle.setText(string);
@@ -114,7 +191,7 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
 
 
     public void setTitle(String string) {
-        if (null != tv_title){
+        if (null != tv_title) {
             tv_title.setText(string);
             tv_title.setVisibility(View.VISIBLE);
         }
@@ -122,7 +199,7 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
     }
 
     public void setTitle(int id) {
-        if (null != tv_title){
+        if (null != tv_title) {
             tv_title.setText(id);
             tv_title.setVisibility(View.VISIBLE);
         }
