@@ -1,7 +1,9 @@
 # YzsBaseActivity
 [![](https://jitpack.io/v/yaozs/YzsBaseActivity.svg)](https://jitpack.io/#yaozs/YzsBaseActivity)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-YzsBaseActivity-green.svg?style=true)](https://android-arsenal.com/details/1/2756)
-
+![](https://img.shields.io/badge/minSdk-15-blue.svg)
+[![](https://img.shields.io/github/stars/yaozs/YzsBaseActivity.svg)](https://github.com/yaozs/YzsBaseActivity/stargazers)
+[![](https://img.shields.io/github/forks/yaozs/YzsBaseActivity.svg)](https://github.com/yaozs/YzsBaseActivity/network)
  ![image](https://github.com/yaozs/YzsLib/blob/master/app/src/main/res/mipmap-xxxhdpi/icon.png)<br />
 
 本项目为yzslib的一个分支，目的是为了方便大家使用，减少依赖，如果需要整个开发框架请移步<br />
