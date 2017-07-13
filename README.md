@@ -24,10 +24,10 @@
 
         在引用项目处添加
         dependencies {
-             compile 'com.github.yaozs:YzsBaseActivity:0.4.1'
+             compile 'com.github.yaozs:YzsBaseActivity:0.4.2'
         }
 
-        目前最新版本为0.4.1，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.4.2，就是最新的release版本，之后引用修改版本号就可以
 
 
 ### 本项目采用的架构是 多Activity 多fragment的模块化架构，使用fragmentation作为底层进行的二次开发封装，使界面加载更加的快速，
