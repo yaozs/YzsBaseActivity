@@ -52,6 +52,7 @@
         * 17.07.04 重大更新。。。修改activity栈管理器，重构项目，兼容mvp模式与mvc模式，继续提供list界面和home界面的支持，
             list界面托管模式开启，全新架构，最少使用activity，采用ImmersionBar解决沉浸式方案，eventbus一键开启关闭
         * 17.07.05 修复加载更多bug，添加showBackButton（显示返回方法）
+        * 17.07.13 优化fragment切换出现白边
 
 
 ### 本项目使用开源项目
