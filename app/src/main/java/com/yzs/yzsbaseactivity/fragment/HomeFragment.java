@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.activity.SecondActivity;
 import com.yzs.yzsbaseactivity.base.BaseFragment;
 import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 import com.yzs.yzsbaseactivitylib.util.ActivityGoUtils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -30,6 +34,7 @@ public class HomeFragment extends BaseFragment {
         return fragment;
     }
 
+    BaseQuickAdapter<String, BaseViewHolder> adapter;
 
     @Override
     protected int getLayoutRes() {
@@ -62,7 +67,16 @@ public class HomeFragment extends BaseFragment {
                 ActivityGoUtils.getInstance().readyGo(_mActivity, SecondActivity.class);
             }
         });
+
+        adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.layout_common_toolbar, new ArrayList<String>()) {
+
+            @Override
+            protected void convert(BaseViewHolder helper, String item) {
+
+            }
+        };
     }
+
 
 
     @Override

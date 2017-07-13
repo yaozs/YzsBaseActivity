@@ -49,7 +49,6 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
     @Override
     protected void immersionInit() {
         super.immersionInit();
-        Log.e("33333333333", "11111111111");
         ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
                 .statusBarDarkFont(true, 0.2f)
                 .statusBarColor(R.color.md_red_500)
