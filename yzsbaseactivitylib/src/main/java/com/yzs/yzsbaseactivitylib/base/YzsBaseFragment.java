@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,10 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
         tv_rightTitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_right);
         iv_rightTitle = (ImageView) toolbar.findViewById(R.id.iv_toolbar_right);
 
+    }
+
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     //显示返回按钮
@@ -269,6 +274,22 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
      * @param bundle
      */
     protected abstract void getBundleExtras(Bundle bundle);
+
+    protected View emptyView;
+
+    public View getEmptyView(String str, @DrawableRes int drawRes) {
+        if (emptyView != null) {
+            return emptyView;
+        }
+        emptyView = LayoutInflater.from(_mActivity).inflate(R.layout.layout_empty_view, null, false);
+        if (!TextUtils.isEmpty(str)) {
+            TextView textView = (TextView) emptyView.findViewById(R.id.tv_text);
+            ImageView imageView = (ImageView) emptyView.findViewById(R.id.iv_empty);
+            imageView.setImageResource(drawRes);
+            textView.setText(str);
+        }
+        return emptyView;
+    }
 
     @Override
     public void onDestroyView() {

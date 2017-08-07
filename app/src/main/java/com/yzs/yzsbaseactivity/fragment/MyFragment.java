@@ -19,14 +19,14 @@ import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 public class MyFragment extends BaseFragment {
 
     public static MyFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         MyFragment fragment = new MyFragment();
         fragment.setArguments(args);
         return fragment;
     }
-  
+
     @Override
     protected void immersionInit() {
         super.immersionInit();

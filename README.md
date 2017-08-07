@@ -31,10 +31,10 @@
 
         在引用项目处添加
         dependencies {
-             compile 'com.github.yaozs:YzsBaseActivity:0.4.2'
+             compile 'com.github.yaozs:YzsBaseActivity:0.4.3'
         }
 
-        目前最新版本为0.4.2，就是最新的release版本，之后引用修改版本号就可以
+        目前最新版本为0.4.3，就是最新的release版本，之后引用修改版本号就可以
 
 
 ### 本项目采用的架构是 多Activity 多fragment的模块化架构，使用fragmentation作为底层进行的二次开发封装，使界面加载更加的快速，
@@ -60,6 +60,8 @@
             list界面托管模式开启，全新架构，最少使用activity，采用ImmersionBar解决沉浸式方案，eventbus一键开启关闭
         * 17.07.05 修复加载更多bug，添加showBackButton（显示返回方法）
         * 17.07.13 优化fragment切换出现白边
+        * 17.08.02 优化默认tooblar颜色设置，自动适配项目颜色
+        * 17.08.07 优化list界面自动化处理，一句代码搞定各种加载状态     autoListLoad  方法诞生
 
 
 ### 本项目使用开源项目

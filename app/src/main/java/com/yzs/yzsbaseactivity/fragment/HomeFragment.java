@@ -98,6 +98,12 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+
+//    @Override
+//    public int getToolBarResId() {
+//        return R.layout.test_toolbar;
+//    }
+
     @Override
     public boolean showToolBar() {
         return true;
