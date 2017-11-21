@@ -1,4 +1,4 @@
-package com.yzs.yzsbaseactivitylib.base;
+package com.yzs.yzsbaseactivitylib.yzsbase;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,26 +16,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yzs.yzsbaseactivitylib.R;
+import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
+import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
 import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
+import com.yzs.yzsbaseactivitylib.util.TUtil;
 
 import de.greenrobot.event.EventBus;
-
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Author: 姚智胜
  * Version: V1.0版本
- * Description: 替代activity的基础fragment
- * Date: 2017/6/29
+ * Description: 整合后的baseFragment
+ * Date: 2017/9/1
  * Email: 541567595@qq.com
  */
 
-public abstract class YzsBaseFragment extends ImmersionFragment {
+public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends SupportFragment {
 
     protected View rootView;//在使用自定义toolbar时候的根布局 =toolBarView+childView
     private Toolbar toolbar;
     private TextView tv_title, tv_rightTitle;
     private ImageView iv_rightTitle;
     private LinearLayout ll_base_root;
+    protected View emptyView;// 空布局，recyclerView使用
+    public T mPresenter;
+    public E mModel;
+    private boolean openEventBus = false;//是否开启eventbus
+    private boolean showToolbar = false;//是否显示toolbar
+
+    private boolean isMvp = true;
 
     public LinearLayout getLl_base_root() {
         return ll_base_root;
@@ -44,7 +54,8 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (openEventBus()) {
+        initSetting();
+        if (openEventBus) {
             EventBus.getDefault().register(this);
         }
         if (null != getArguments()) {
@@ -52,7 +63,7 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
         }
         if (rootView == null) {
             //为空时初始化。
-            if (showToolBar() && getToolBarResId() != 0) {
+            if (showToolbar && getToolBarResId() != 0) {
                 //如果需要显示自定义toolbar,并且资源id存在的情况下，实例化baseView;
                 rootView = inflater.inflate(R.layout.ac_base, container, false);//根布局
                 ll_base_root = (LinearLayout) rootView.findViewById(R.id.ll_base_root);
@@ -87,6 +98,59 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
         iv_rightTitle = (ImageView) toolbar.findViewById(R.id.iv_toolbar_right);
 
     }
+
+    /**
+     * 设置界面所有的初始化开关
+     */
+    protected abstract void initSetting();
+
+    /**
+     * mvp架构的初始化
+     */
+    public void mvpCreate() {
+        if (isMvp) {
+            mPresenter = TUtil.getT(this, 0);
+            mModel = TUtil.getT(this, 1);
+        }
+
+        if (mPresenter != null) {
+            mPresenter.mContext = this.getActivity();
+        }
+
+        initPresenter();
+    }
+
+    /**
+     * 设置界面是否使用mvp模式（不用关注这个方法，这个方法是专门处理列表类界面的）
+     *
+     * @param mvp
+     */
+    public void setMvp(boolean mvp) {
+        isMvp = mvp;
+    }
+
+    /**
+     * 简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
+     */
+    public void initPresenter() {
+    }
+
+    /**
+     * 当前页面Fragment支持沉浸式初始化。子类可以重写返回false，设置不支持沉浸式初始化
+     * Immersion bar enabled boolean.
+     *
+     * @return the boolean
+     */
+    protected boolean immersionEnabled() {
+        return true;
+    }
+
+    protected abstract void immersionInit();
+
+    /**
+     * 逻辑内容初始化，懒加载模式
+     */
+    protected abstract void initLogic();
 
     protected Toolbar getToolbar() {
         return toolbar;
@@ -209,20 +273,6 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
         }
     }
 
-    /**
-     * mvp架构的初始化
-     */
-    public abstract void mvpCreate();
-
-    /**
-     * 是否开启eventBus
-     */
-    public abstract boolean openEventBus();
-
-    /**
-     * 是否显示通用toolBar
-     */
-    public abstract boolean showToolBar();
 
     /**
      * 获取自定义toolbarview 资源id 默认为0，showToolBar()方法必须返回true才有效
@@ -261,21 +311,19 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
     }
 
     /**
-     * EventBus接收信息的方法，开启后才会调用
-     *
-     * @param event
-     */
-    protected abstract void EventBean(BaseEventBusBean event);
-
-    /**
      * 获取bundle信息
      *
      * @param bundle
      */
     protected abstract void getBundleExtras(Bundle bundle);
 
-    protected View emptyView;
-
+    /**
+     * 在底层为recyclerView提供空布局的简便实现方法
+     *
+     * @param str
+     * @param drawRes
+     * @return
+     */
     public View getEmptyView(String str, @DrawableRes int drawRes) {
         if (emptyView != null) {
             return emptyView;
@@ -293,8 +341,55 @@ public abstract class YzsBaseFragment extends ImmersionFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (openEventBus()) {
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
+        if (openEventBus) {
             EventBus.getDefault().unregister(this);
         }
     }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        initLogic();
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (immersionEnabled()) {
+            immersionInit();
+        }
+    }
+
+    /**
+     * 设置是否开启eventBus
+     *
+     * @param isOpen
+     */
+    public void setOpenEventBus(boolean isOpen) {
+        openEventBus = isOpen;
+    }
+
+    /**
+     * 设置是否显示ToolBar
+     *
+     * @param isOpen
+     */
+    public void setShowToolBar(boolean isOpen) {
+        showToolbar = isOpen;
+    }
+
+    /**
+     * eventBus通用的接收器，如使用自己重写，如果想单独接收，请重写onEventMainThread方法并使用其他bean
+     *
+     * @param event
+     */
+    protected void EventBean(BaseEventBusBean event) {
+
+    }
+
+
 }
+

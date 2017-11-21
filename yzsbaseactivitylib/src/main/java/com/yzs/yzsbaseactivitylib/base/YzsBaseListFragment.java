@@ -86,7 +86,9 @@ public abstract class YzsBaseListFragment<T extends BasePresenter, E extends Bas
     public int getmPageSize() {
         return mPageSize;
     }
-
+    public void setmPageSize(int mPageSize) {
+        this.mPageSize = mPageSize;
+    }
     @Override
     protected void initView(View view) {
         if (0 == getLayoutResource()) {
