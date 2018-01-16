@@ -3,6 +3,8 @@
 
     <!-- 沉浸式使用view的id -->
     <item name="yzs_view" type="id" />
+    <!-- 设置toolbar使用view的id -->
+    <item name="yzs_toolbar" type="id" />
 
     <!-- 使用baselist需要使用的id -->
     <item name="yzs_base_list" type="id" />

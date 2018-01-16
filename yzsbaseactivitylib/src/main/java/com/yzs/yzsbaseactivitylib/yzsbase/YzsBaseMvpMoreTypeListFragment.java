@@ -1,5 +1,6 @@
 package com.yzs.yzsbaseactivitylib.yzsbase;
 
+import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -9,14 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.yzs.yzsbaseactivitylib.R;
-import com.yzs.yzsbaseactivitylib.annotations.ListType;
 import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
 import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
 import com.yzs.yzsbaseactivitylib.entity.BaseListType;
@@ -27,45 +29,46 @@ import java.util.List;
 /**
  * Author: 姚智胜
  * Version: V1.0版本
- * Description:列表类fragment（使用mvp架构）
+ * Description:列表类列多重子布局fragment（使用mvp架构）
  * Date: 2017/6/13
  * Email: 541567595@qq.com
  */
 
-public abstract class BaseListFragment<T extends BasePresenter, E extends BaseModel, D> extends
-        BaseFragment<T, E> {
+public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E extends BaseModel, D extends MultiItemEntity> extends
+        YzsBaseFragment<T, E> {
 
-    private int mListType = 0;//默认为0单行布局
-    private boolean mIsVertical = true;//排列方式默认垂直
-    private int mSpanCount = 1;//grid布局与瀑布流布局默认行数
+    /**
+     * 默认为0单行布局
+     */
+    private int mListType = 0;
+    /**
+     * 排列方式默认垂直
+     */
+    private boolean mIsVertical = true;
+    /**
+     * grid布局与瀑布流布局默认行数
+     */
+    private int mSpanCount = 1;
+
     protected RecyclerView mRecyclerView;
-    protected YzsListAdapter mAdapter;//列表类界面实际使用的adapter
-    protected RefreshLayout mRefreshLayout;//刷新加载控件
-    private boolean isOpenRefresh = false;//是否开启刷新
-    private boolean isOpenLoadMore = false;//是否开启加载更多
-    private int mPage = 1;//页数角标
-    private int mPageSize = 10;//每页数量
 
-    public int getPage() {
-        return mPage;
-    }
+    protected YzsListAdapter mAdapter;
 
-    public void setPage(int page) {
-        mPage = page;
-    }
+    private LoadMoreView loadMoreView;
+
+    protected RefreshLayout mRefreshLayout;
+
+    private boolean isOpenRefresh = false;
+
+    private boolean isOpenLoadMore = false;
+
+    private int mPage = 1;
+    private int mPageSize = 10;
 
     public void setmPageSize(int mPageSize) {
         this.mPageSize = mPageSize;
     }
 
-    public int getmPageSize() {
-        return mPageSize;
-    }
-
-    @Override
-    protected int getLayoutRes() {
-        return R.layout.yzs_comment_list;
-    }
 
     /**
      * 是否开启刷新和加载更多，默认不开启
@@ -80,18 +83,49 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
 
     @Override
     protected void initView(View view) {
-        if (0 == getLayoutResource()) {
+        if (0 == getLayoutRes()) {
             throw new RuntimeException("layoutResId is null!");
         }
-        judgeViewIsNull();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
+        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        mAdapter = new YzsListAdapter(_mActivity, new ArrayList<D>());
+        initSetting();
+        chooseListType(mListType, mIsVertical);
+
+        if (isOpenRefresh && mRefreshLayout != null) {
+            if (isOpenLoadMore) {
+                mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+                    @Override
+                    public void onLoadmore(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        if (mRefreshLayout != null)
+                            loadMoreListener();
+                    }
+
+                    @Override
+                    public void onRefresh(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        refreshListener();
+                    }
+                });
+            } else {
+                mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                    @Override
+                    public void onRefresh(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        refreshListener();
+                    }
+                });
+            }
+
+        }
+
     }
 
-    /**
-     * 初始化子布局
-     */
-    protected abstract
-    @LayoutRes
-    int initItemLayout();
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.yzs_comment_list;
+    }
 
     /**
      * 初始化各种状态处理
@@ -104,7 +138,7 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
      * @param type       布局管理type
      * @param isVertical 是否是垂直的布局 ，true垂直布局，false横向布局
      */
-    protected void setListType(@ListType int type, boolean isVertical) {
+    protected void setListType(int type, boolean isVertical) {
         mListType = type;
         mIsVertical = isVertical;
     }
@@ -170,58 +204,47 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
     /**
      * 初始化子布局
      */
-    protected  void refreshListener(){
-
-    };
+    protected abstract void refreshListener();
 
     /**
      * 初始化子布局
      */
-    protected  void loadMoreListener(){
-
-    };
+    protected abstract void loadMoreListener();
 
 
-    public class YzsListAdapter extends BaseQuickAdapter<D, BaseViewHolder> {
+    public class YzsListAdapter extends BaseMultiItemQuickAdapter<D, BaseViewHolder> {
 
-        public YzsListAdapter(int layoutResId, List<D> data) {
-            super(layoutResId, data);
+        public YzsListAdapter(Context context, List<D> data) {
+            super(data);
+            setRcTypeRes(this);
+
         }
 
         @Override
-        protected void convert(BaseViewHolder baseViewHolder, D t) {
-            MyHolder(baseViewHolder, t);
+        protected void convert(BaseViewHolder holder, D t) {
+            MyHolder(holder, t);
+        }
+
+        @Override
+        public void addItemType(int type, @LayoutRes int layoutResId) {
+            super.addItemType(type, layoutResId);
         }
     }
 
-
     /**
-     * 设置adapter的多重布局res
+     * 自动化处理list
      *
-     * @param adapter
+     * @param tList
+     * @param empty_str
+     * @param empty_res
      */
-    protected abstract void setRcTypeRes(BaseMoreTypeListFragment.YzsListAdapter adapter);
-
-    /**
-     * 刷新成功
-     */
-    public void okRefresh() {
-        judgeViewIsNull();
-        if (mAdapter != null) {
-            mPage = 2;
-            mRefreshLayout.finishRefresh();
-            mRefreshLayout.setLoadmoreFinished(false);//恢复上拉状态
-            Logger.d("refresh_complete");
-        }
-    }
-
-    public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int Empty_res) {
+    public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int empty_res) {
         tList = tList == null ? new ArrayList<D>() : tList;
         if (getPage() == 1) {
             okRefresh();
             mAdapter.setNewData(tList);
             if (tList.size() == 0) {
-                mAdapter.setEmptyView(getEmptyView(empty_str, Empty_res));
+                mAdapter.setEmptyView(getEmptyView(empty_str, empty_res));
             }
         } else {
             if (tList.size() == mPageSize) {
@@ -250,10 +273,22 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
     }
 
     /**
-     * 加载更多成功
+     * 设置adapter的多重布局res
      *
-     * @param isHashNext
+     * @param adapter
      */
+    protected abstract void setRcTypeRes(YzsListAdapter adapter);
+
+    public void okRefresh() {
+        judgeViewIsNull();
+        if (mAdapter != null) {
+            mPage = 2;
+            mRefreshLayout.finishRefresh();
+            mRefreshLayout.setLoadmoreFinished(false);//恢复上拉状态
+            Logger.d("refresh_complete");
+        }
+    }
+
     public void okLoadMore(boolean isHashNext) {
         judgeViewIsNull();
         mPage++;
@@ -265,9 +300,6 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
         }
     }
 
-    /**
-     * 加载更多失败
-     */
     public void failLoadMore() {
         judgeViewIsNull();
         mRefreshLayout.finishLoadmore();
@@ -280,6 +312,13 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
         super.onDestroy();
     }
 
+    public int getPage() {
+        return mPage;
+    }
+
+    public void setPage(int page) {
+        mPage = page;
+    }
 
     /**
      * 处理mRefreshLayout与mRecyclerView的未知空情况bug
@@ -292,9 +331,10 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.yzs_base_list);
         }
         if (mAdapter == null) {
-            mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
+            mAdapter = new YzsListAdapter(_mActivity, new ArrayList<D>());
             initSetting();
             chooseListType(mListType, mIsVertical);
+
             if (isOpenRefresh && mRefreshLayout != null) {
                 if (isOpenLoadMore) {
                     mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
@@ -320,8 +360,10 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
                         }
                     });
                 }
+
             }
         }
+
     }
 
     /**
@@ -334,7 +376,7 @@ public abstract class BaseListFragment<T extends BasePresenter, E extends BaseMo
     /**
      * 提供改变显示方法（该方法用于布局显示后动态改变显示方式）
      */
-    protected void changeShowType(@ListType int listType, boolean isVertical) {
+    protected void changeShowType(int listType, boolean isVertical) {
         chooseListType(listType, isVertical);
     }
 }

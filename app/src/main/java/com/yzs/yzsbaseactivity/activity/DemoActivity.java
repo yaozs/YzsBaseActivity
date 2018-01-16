@@ -3,10 +3,8 @@ package com.yzs.yzsbaseactivity.activity;
 import android.os.Bundle;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.fragment.IndexFragment;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseSupportFragmentActivity;
-import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseSupportFragmentActivity;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -24,18 +22,8 @@ public class DemoActivity extends YzsBaseSupportFragmentActivity {
     }
 
     @Override
-    public boolean showToolBar() {
-        return false;
-    }
+    public void initImmersion() {
 
-    @Override
-    public boolean openEventBus() {
-        return false;
-    }
-
-    @Override
-    public int getToolBarResId() {
-        return R.layout.layout_common_toolbar;
     }
 
     @Override
@@ -44,14 +32,51 @@ public class DemoActivity extends YzsBaseSupportFragmentActivity {
     }
 
     @Override
+    public void initPresenter() {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+
+//    @Override
+//    public SupportFragment setFragment() {
+//        ImmersionBar.with(this).init();
+//        return IndexFragment.newInstance();
+//    }
+//
+//    @Override
+//    public boolean showToolBar() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean openEventBus() {
+//        return false;
+//    }
+//
+//    @Override
+//    public int getToolBarResId() {
+//        return R.layout.layout_common_toolbar;
+//    }
+//
+//    @Override
+//    protected void getBundleExtras(Bundle extras) {
+//
+//    }
+//
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
     }
-
-    @Override
-    protected void EventBean(BaseEventBusBean event) {
-
-    }
+//
+//    @Override
+//    protected void EventBean(BaseEventBusBean event) {
+//
+//    }
 
 }

@@ -1,4 +1,4 @@
-package com.yzs.yzsbaseactivitylib.base;
+package com.yzs.yzsbaseactivitylib.yzsbase;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,7 +25,7 @@ import com.yzs.yzsbaseactivitylib.util.StringUtils;
  * Email: 541567595@qq.com
  */
 
-public abstract class YzsBaseWebFragment extends YzsBaseMvpFragment {
+public abstract class YzsBaseWebFragment extends YzsBaseFragment {
     private static final String TAG = "YzsBaseWebFragment";
 
     protected WebView wv_web_view;
@@ -187,5 +187,6 @@ public abstract class YzsBaseWebFragment extends YzsBaseMvpFragment {
     protected void initView(View rootView) {
         wv_web_view = (WebView) rootView.findViewById(R.id.wv_webview);
     }
+
 
 }

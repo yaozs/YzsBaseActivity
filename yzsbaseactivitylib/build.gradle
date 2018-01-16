@@ -31,14 +31,17 @@ dependencies {
     //viewpager指示器 与 导航栏控件
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     // 为"单Activity ＋ 多Fragment","多模块Activity + 多Fragment"架构而生,替代官方fragment
-    compile 'me.yokeyword:fragmentation:1.1.4'
+    compile 'me.yokeyword:fragmentation:1.2.4'
     //事件总线
     //RecyclerView的强大的BaseAdapter
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile files('libs/eventbus-2.4.0.jar')
     compile 'com.orhanobut:logger:2.1.1'
     //沉浸式库
-    compile 'com.gyf.barlibrary:barlibrary:2.2.5'
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    // Activity作用域的EventBus，更安全，可有效避免after onSavenInstanceState()异常
+    compile 'me.yokeyword:eventbus-activity-scope:1.1.0'
+// Your EventBus's version
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

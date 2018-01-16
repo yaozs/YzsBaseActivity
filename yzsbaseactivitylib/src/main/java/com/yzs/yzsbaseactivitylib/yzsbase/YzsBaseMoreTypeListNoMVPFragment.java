@@ -12,17 +12,24 @@ import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
  * Email: 541567595@qq.com
  */
 
-public abstract class BaseMoreTypeListNoMVPFragment<T extends MultiItemEntity> extends BaseMoreTypeListFragment<BasePresenter, BaseModel, T> {
+public abstract class YzsBaseMoreTypeListNoMVPFragment<T extends MultiItemEntity> extends
+        YzsBaseMvpMoreTypeListFragment<BasePresenter, BaseModel, T> {
+
+//    @Override
+//    protected int getLayoutResource() {
+//        setMvp(false);
+//        return getLayoutRes();
+//    }
+
 
     @Override
-    protected int getLayoutResource() {
+    protected int getLayoutRes() {
         setMvp(false);
-        return getLayoutRes();
+        return super.getLayoutRes();
     }
 
     @Override
     public void initPresenter() {
 
     }
-
 }

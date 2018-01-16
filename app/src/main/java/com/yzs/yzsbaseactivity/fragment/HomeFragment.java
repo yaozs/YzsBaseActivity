@@ -10,7 +10,6 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.activity.SecondActivity;
 import com.yzs.yzsbaseactivity.base.BaseFragment;
-import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 import com.yzs.yzsbaseactivitylib.util.ActivityGoUtils;
 
 import java.util.ArrayList;
@@ -47,20 +46,9 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected void EventBean(BaseEventBusBean event) {
-
-    }
-
-
-    @Override
-    public boolean openEventBus() {
-        return true;
-    }
 
     @Override
     protected void initLogic() {
-        setTitle("HomeFragment");
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

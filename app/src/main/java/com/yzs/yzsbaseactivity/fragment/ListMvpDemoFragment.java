@@ -45,6 +45,7 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
     @Override
     protected void initView(View view) {
         super.initView(view);
+        setMvp(true);
     }
     @Override
     protected void immersionInit() {
@@ -63,7 +64,7 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
 
     @Override
     protected void initLogic() {
-        setTitle("ListMvpDemoFragment");
+        setmPageSize(10);//该方法为设置自动加载的每页数量，默认为10
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -77,23 +78,15 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
     public void showData(List<String> list) {
         try {
             if (isRefresh) {
-                okRefresh();
-                mAdapter.setNewData(list);
+               autoListLoad(list,"",R.drawable.empty_address);
             } else {
-                if (list.size() == 10) {
                     if (isFail) {
                         isFail = false;
-                        failLoadMore();
+                        autoListLoad(list,"",R.drawable.empty_address,true);
                     } else {
                         isFail = true;
-                        okLoadMore(true);
-                        mAdapter.addData(list);
+                        autoListLoad(list,"",R.drawable.empty_address);
                     }
-                } else {
-                    okLoadMore(false);
-                    mAdapter.addData(list);
-                }
-
             }
         }catch (Exception e){
             Logger.e(TAG,e);
@@ -157,10 +150,6 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
         return true;
     }
 
-    @Override
-    protected int getLayoutRes() {
-        return R.layout.fg_list_demo;
-    }
 
     @Override
     protected void getBundleExtras(Bundle bundle) {

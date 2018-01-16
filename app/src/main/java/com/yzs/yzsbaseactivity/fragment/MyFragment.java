@@ -7,7 +7,6 @@ import android.view.View;
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.base.BaseFragment;
-import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 
 
 /**
@@ -40,7 +39,7 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void initLogic() {
-        setTitle("MyFragment");
+
     }
 
     @Override
@@ -48,10 +47,6 @@ public class MyFragment extends BaseFragment {
 
     }
 
-    @Override
-    public boolean openEventBus() {
-        return false;
-    }
 
     @Override
     public boolean showToolBar() {
@@ -65,11 +60,6 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-
-    }
-
-    @Override
-    protected void EventBean(BaseEventBusBean event) {
 
     }
 

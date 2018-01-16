@@ -2,9 +2,9 @@ package com.yzs.yzsbaseactivity.base;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivitylib.base.BaseModel;
-import com.yzs.yzsbaseactivitylib.base.BasePresenter;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseMvpFragment;
+import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
+import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseFragment;
 
 /**
  * Author: 姚智胜
@@ -14,7 +14,7 @@ import com.yzs.yzsbaseactivitylib.base.YzsBaseMvpFragment;
  * Email: 541567595@qq.com
  */
 
-public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends YzsBaseMvpFragment<T, E> {
+public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends YzsBaseFragment<T, E> {
 
     @Override
     protected void immersionInit() {

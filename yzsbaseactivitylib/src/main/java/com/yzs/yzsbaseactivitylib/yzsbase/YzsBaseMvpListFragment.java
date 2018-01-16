@@ -1,26 +1,26 @@
-package com.yzs.yzsbaseactivitylib.base;
+package com.yzs.yzsbaseactivitylib.yzsbase;
 
-import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.yzs.yzsbaseactivitylib.R;
+import com.yzs.yzsbaseactivitylib.annotations.ListType;
+import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
+import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
 import com.yzs.yzsbaseactivitylib.entity.BaseListType;
-import com.yzs.yzsbaseactivitylib.okload.IOkLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +28,13 @@ import java.util.List;
 /**
  * Author: 姚智胜
  * Version: V1.0版本
- * Description:列表类列多重子布局fragment（使用mvp架构）
- * Date: 2017/6/13
+ * Description:
+ * Date: 2018/1/9
  * Email: 541567595@qq.com
  */
 
-public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E extends BaseModel, D extends MultiItemEntity> extends
-        YzsBaseMvpFragment<T, E> implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, IOkLoad {
+public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends BaseModel, D> extends
+        YzsBaseFragment<T, E> {
 
     /**
      * 默认为0单行布局
@@ -56,7 +55,9 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
 
     private LoadMoreView loadMoreView;
 
-    protected SwipeRefreshLayout mRefreshLayout;
+    protected RefreshLayout mRefreshLayout;
+
+
 
     private boolean isOpenRefresh = false;
 
@@ -69,6 +70,16 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
         this.mPageSize = mPageSize;
     }
 
+
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.yzs_comment_list;
+    }
+
+    public int getmPageSize() {
+        return mPageSize;
+    }
 
     /**
      * 是否开启刷新和加载更多，默认不开启
@@ -83,21 +94,42 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
 
     @Override
     protected void initView(View view) {
-        if (0 == getLayoutResource()) {
+        if (0 == getLayoutRes()) {
             throw new RuntimeException("layoutResId is null!");
         }
         mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.yzs_base_refreshLayout);
-        mAdapter = new YzsListAdapter(_mActivity, new ArrayList<D>());
+        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
         initSetting();
         mAdapter.setLoadMoreView(getLoadMoreView());
         chooseListType(mListType, mIsVertical);
 
-        if (isOpenRefresh && mRefreshLayout != null) {
-            mRefreshLayout.setOnRefreshListener(this);
-        }
-        if (isOpenLoadMore) {
-            mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        if (isOpenRefresh && mRefreshLayout != null ) {
+            if (isOpenLoadMore){
+                mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+                    @Override
+                    public void onLoadmore(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        if (mRefreshLayout != null)
+                            loadMoreListener();
+                    }
+
+                    @Override
+                    public void onRefresh(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        refreshListener();
+                    }
+                });
+            }else {
+                mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                    @Override
+                    public void onRefresh(RefreshLayout refreshlayout) {
+                        judgeViewIsNull();
+                        refreshListener();
+                    }
+                });
+            }
+
         }
 
     }
@@ -135,6 +167,14 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
         } : loadMoreView;
     }
 
+
+    /**
+     * 初始化子布局
+     */
+    protected abstract
+    @LayoutRes
+    int initItemLayout();
+
     /**
      * 初始化各种状态处理
      * 在这个方法里处理的是recyclerview的所有的初始化，
@@ -146,11 +186,10 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
      * @param type       布局管理type
      * @param isVertical 是否是垂直的布局 ，true垂直布局，false横向布局
      */
-    protected void setListType(int type, boolean isVertical) {
+    protected void setListType(@ListType int type, boolean isVertical) {
         mListType = type;
         mIsVertical = isVertical;
     }
-
     /**
      * 为grid样式和瀑布流设置横向或纵向数量
      *
@@ -209,21 +248,6 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
      */
     protected abstract void MyHolder(BaseViewHolder baseViewHolder, D t);
 
-    @Override
-    public void onRefresh() {
-        judgeViewIsNull();
-        mAdapter.setEnableLoadMore(false);
-        refreshListener();
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        judgeViewIsNull();
-        if (mRefreshLayout != null)
-            mRefreshLayout.setEnabled(false);
-        loadMoreListener();
-    }
-
     /**
      * 初始化子布局
      */
@@ -235,39 +259,35 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
     protected abstract void loadMoreListener();
 
 
-    public class YzsListAdapter extends BaseMultiItemQuickAdapter<D, BaseViewHolder> {
+    public class YzsListAdapter extends BaseQuickAdapter<D, BaseViewHolder> {
 
-        public YzsListAdapter(Context context, List<D> data) {
-            super(data);
-            setRcTypeRes(this);
-
+        public YzsListAdapter(int layoutResId, List<D> data) {
+            super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder holder, D t) {
-            MyHolder(holder, t);
-        }
-
-        @Override
-        public void addItemType(int type, @LayoutRes int layoutResId) {
-            super.addItemType(type, layoutResId);
+        protected void convert(BaseViewHolder baseViewHolder, D t) {
+            MyHolder(baseViewHolder, t);
         }
     }
 
-    /**
-     * 自动化处理list
-     *
-     * @param tList
-     * @param empty_str
-     * @param empty_res
-     */
-    public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int empty_res) {
+    public void okRefresh() {
+        judgeViewIsNull();
+        if (mAdapter != null) {
+            mPage = 2;
+            mRefreshLayout.finishRefresh();
+            mRefreshLayout.setLoadmoreFinished(false);//恢复上拉状态
+            Logger.d("refresh_complete");
+        }
+    }
+
+    public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int Empty_res) {
         tList = tList == null ? new ArrayList<D>() : tList;
         if (getPage() == 1) {
             okRefresh();
             mAdapter.setNewData(tList);
             if (tList.size() == 0) {
-                mAdapter.setEmptyView(getEmptyView(empty_str, empty_res));
+                mAdapter.setEmptyView(getEmptyView(empty_str, Empty_res));
             }
         } else {
             if (tList.size() == mPageSize) {
@@ -295,46 +315,23 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
         }
     }
 
-    /**
-     * 设置adapter的多重布局res
-     *
-     * @param adapter
-     */
-    protected abstract void setRcTypeRes(YzsListAdapter adapter);
 
-    @Override
-    public void okRefresh() {
-        judgeViewIsNull();
-        if (mAdapter != null) {
-            mPage = 2;
-            if (mRefreshLayout != null)
-                mRefreshLayout.setRefreshing(false);
-            mAdapter.setEnableLoadMore(true);
-            Logger.d("refresh_complete");
-        }
-    }
-
-    @Override
     public void okLoadMore(boolean isHashNext) {
         judgeViewIsNull();
-        if (mRefreshLayout != null) {
-            mPage++;
-            mRefreshLayout.setEnabled(true);
-        }
-        if (isHashNext) {
-            mAdapter.loadMoreComplete();
-        } else {
+
+        mPage++;
+        mRefreshLayout.finishLoadmore();
+
+        if (!isHashNext) {
             //false为显示加载结束，true为不显示
-            mAdapter.loadMoreEnd(false);
+            mRefreshLayout.setLoadmoreFinished(true);//设置之后，将不会再触发加载事件
         }
     }
 
-    @Override
+
     public void failLoadMore() {
         judgeViewIsNull();
-        if (mRefreshLayout != null)
-            mRefreshLayout.setEnabled(true);
-        mAdapter.loadMoreFail();
+        mRefreshLayout.finishLoadmore();
     }
 
     @Override
@@ -344,38 +341,59 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
         super.onDestroy();
     }
 
-    @Override
     public int getPage() {
         return mPage;
     }
 
-    @Override
     public void setPage(int page) {
         mPage = page;
     }
+
 
     /**
      * 处理mRefreshLayout与mRecyclerView的未知空情况bug
      */
     private void judgeViewIsNull() {
         if (mRefreshLayout == null) {
-            mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.yzs_base_refreshLayout);
+            mRefreshLayout = (RefreshLayout) rootView.findViewById(R.id.refreshLayout);
         }
         if (mRecyclerView == null) {
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.yzs_base_list);
         }
         if (mAdapter == null) {
-            mAdapter = new YzsListAdapter(_mActivity, new ArrayList<D>());
+            mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
             initSetting();
             mAdapter.setLoadMoreView(getLoadMoreView());
             chooseListType(mListType, mIsVertical);
 
-            if (isOpenRefresh && mRefreshLayout != null) {
-                mRefreshLayout.setOnRefreshListener(this);
+            if (isOpenRefresh && mRefreshLayout != null ) {
+                if (isOpenLoadMore){
+                    mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+                        @Override
+                        public void onLoadmore(RefreshLayout refreshlayout) {
+                            judgeViewIsNull();
+                            if (mRefreshLayout != null)
+                                loadMoreListener();
+                        }
+
+                        @Override
+                        public void onRefresh(RefreshLayout refreshlayout) {
+                            judgeViewIsNull();
+                            refreshListener();
+                        }
+                    });
+                }else {
+                    mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                        @Override
+                        public void onRefresh(RefreshLayout refreshlayout) {
+                            judgeViewIsNull();
+                            refreshListener();
+                        }
+                    });
+                }
+
             }
-            if (isOpenLoadMore) {
-                mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-            }
+
         }
 
     }
@@ -384,15 +402,7 @@ public abstract class YzsBaseMoreTypeListFragment<T extends BasePresenter, E ext
      * 进入自动加载
      */
     protected void autoRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (null != mRefreshLayout) {
-                    mRefreshLayout.setRefreshing(true);
-                    onRefresh();
-                }
-            }
-        }, 500);
+        mRefreshLayout.autoRefresh();
     }
 
     /**

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <Button
@@ -10,15 +11,30 @@
         android:layout_height="wrap_content"
         android:text="change" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@id/yzs_base_refreshLayout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlDragRate="0.7"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlHeaderHeight="150dp"
+        app:srlHeaderMaxDragRate="1.3">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="#888" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@id/yzs_base_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="#888" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

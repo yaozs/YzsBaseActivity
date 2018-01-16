@@ -3,7 +3,7 @@ package com.yzs.yzsbaseactivity.fragment;
 import android.os.Bundle;
 import android.view.View;
 
-import com.yzs.yzsbaseactivitylib.base.YzsBaseMvpFragment;
+import com.yzs.yzsbaseactivity.base.BaseFragment;
 
 /**
  * Author: 姚智胜
@@ -13,7 +13,7 @@ import com.yzs.yzsbaseactivitylib.base.YzsBaseMvpFragment;
  * Email: 541567595@qq.com
  */
 
-public class DemoFragment extends YzsBaseMvpFragment{
+public class DemoFragment extends BaseFragment{
     @Override
     protected void initLogic() {
 

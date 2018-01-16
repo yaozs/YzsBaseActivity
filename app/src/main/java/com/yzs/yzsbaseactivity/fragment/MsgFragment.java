@@ -2,7 +2,6 @@ package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,7 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.base.BaseListNoMvpFragment;
-import com.yzs.yzsbaseactivity.layout.CustomLoadMoreView;
 import com.yzs.yzsbaseactivitylib.entity.BaseListType;
 
 import java.util.ArrayList;
@@ -45,8 +43,7 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
     @Override
     protected void immersionInit() {
         super.immersionInit();
-        Log.e("44444444444444", "11111111111");
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
+        ImmersionBar.with(this).statusBarView(R.id.yzs_view, rootView)
                 .statusBarDarkFont(true, 0.2f)
                 .statusBarColor(R.color.md_green_400)
                 .navigationBarColor(R.color.md_red_500)
@@ -77,11 +74,15 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
 
     }
 
+    @Override
+    protected void getBundleExtras(Bundle bundle) {
+
+    }
 
 
     @Override
     protected void initLogic() {
-        setTitle("MsgFragment");
+        setmPageSize(pageSize);//该方法为设置自动加载的每页数量，如果不足，则判定为结束
         autoRefresh();
     }
 
@@ -96,7 +97,7 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
         isOpenLoad(true, true);//是否开启加载和刷新
         setListType(BaseListType.GRID_LAYOUT_MANAGER, true);//设置展示方式
         setSpanCount(4);//为grid样式和瀑布流设置横向或纵向数量
-        setLoadMordTypeLayout(new CustomLoadMoreView());//可以不设置，有默认
+//        setLoadMordTypeLayout(new CustomLoadMoreView());//可以不设置，有默认
     }
 
     @Override
@@ -110,8 +111,8 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                okRefresh();
-                mAdapter.setNewData(addData(getPage()));
+                //该方法使用在回调数据中，此为假数据所所以在这里使用
+                autoListLoad(addData(getPage()), "", R.drawable.empty_address);
             }
         }, 1000);
     }
@@ -126,15 +127,14 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
                 if (getPage() < 5) {
                     if (isFail) {
                         isFail = false;
-                        failLoadMore();
+                        //此时为获取失败，调用该方法
+                        autoListLoad(addData(getPage()), "", R.drawable.empty_address, true);
                     } else {
                         isFail = true;
-                        okLoadMore(true);
-                        mAdapter.addData(addData(getPage()));
+                        autoListLoad(addData(getPage()), "", R.drawable.empty_address);
                     }
                 } else {
-                    okLoadMore(false);
-                    mAdapter.addData(addData(getPage()));
+                    autoListLoad(addData(getPage()), "", R.drawable.empty_address);
                 }
 
             }
@@ -153,14 +153,6 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
         return list;
     }
 
-    @Override
-    public boolean showToolBar() {
-        return true;
-    }
 
-    @Override
-    protected void getBundleExtras(Bundle bundle) {
-
-    }
 }
 

@@ -3,7 +3,8 @@ package com.yzs.yzsbaseactivitylib.util;
 
 import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Author 姚智胜

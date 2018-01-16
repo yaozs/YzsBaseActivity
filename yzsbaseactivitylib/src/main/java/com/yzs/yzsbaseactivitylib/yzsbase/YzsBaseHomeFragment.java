@@ -31,14 +31,14 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email: 541567595@qq.com
  */
 
-public abstract class BaseHomeFragment<T extends BasePresenter, E extends BaseModel> extends
-        BaseFragment<T, E> {
+public abstract class YzsBaseHomeFragment<T extends BasePresenter, E extends BaseModel> extends
+        YzsBaseFragment<T, E> {
 
     private static final String TAG = "BaseHomeFragment";
     private String[] mTitles;//title文字部分
     private int[] mIconUnSelectIds = new int[]{};//未选中图标数组
     private int[] mIconSelectIds = new int[]{};//选中图标数组
-    protected BaseFragment[] mFragments;//fragment集合
+    protected YzsBaseFragment[] mFragments;//fragment集合
     protected CommonTabLayout mTabLayout;//导航条
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();//图标信息对象
     protected ViewPager mViewPager;
@@ -160,7 +160,7 @@ public abstract class BaseHomeFragment<T extends BasePresenter, E extends BaseMo
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == 0) {
-                    BaseHomeFragment.this.onTabSelect(mViewPager.getCurrentItem());
+                    YzsBaseHomeFragment.this.onTabSelect(mViewPager.getCurrentItem());
                 }
 
             }
@@ -210,14 +210,14 @@ public abstract class BaseHomeFragment<T extends BasePresenter, E extends BaseMo
                     beforeOnclick(position, toDoHidden);
 
                 }
-                BaseHomeFragment.this.onTabSelect(position);
+                YzsBaseHomeFragment.this.onTabSelect(position);
             }
 
             @Override
             public void onTabReselect(int position) {
 
                 Log.e(TAG, "再次选中项" + position);
-                BaseHomeFragment.this.onTabReselect(position);
+                YzsBaseHomeFragment.this.onTabReselect(position);
             }
         });
     }
@@ -246,7 +246,7 @@ public abstract class BaseHomeFragment<T extends BasePresenter, E extends BaseMo
      *
      * @return mFragments
      */
-    public BaseFragment[] getmFragments() {
+    public YzsBaseFragment[] getmFragments() {
         return mFragments;
     }
 
@@ -255,7 +255,7 @@ public abstract class BaseHomeFragment<T extends BasePresenter, E extends BaseMo
      *
      * @param mFragments
      */
-    public void setmFragments(BaseHomeFragment[] mFragments) {
+    public void setmFragments(YzsBaseFragment[] mFragments) {
         this.mFragments = mFragments;
     }
 

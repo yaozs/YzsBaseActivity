@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_base_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trans">
+
+    <!--内容区-->
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!--自定义toolbar,可覆盖在内容区上面的布局-->
+    <ViewStub
+        android:id="@+id/vs_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/trans" />
+
+</RelativeLayout>

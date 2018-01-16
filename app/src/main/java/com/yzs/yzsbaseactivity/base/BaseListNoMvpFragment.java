@@ -2,7 +2,7 @@ package com.yzs.yzsbaseactivity.base;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseListNoMPFragment;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseListNoMVPFragment;
 
 /**
  * Author: 姚智胜
@@ -12,7 +12,7 @@ import com.yzs.yzsbaseactivitylib.base.YzsBaseListNoMPFragment;
  * Email: 541567595@qq.com
  */
 
-public abstract class BaseListNoMvpFragment<T> extends YzsBaseListNoMPFragment<T> {
+public abstract class BaseListNoMvpFragment<T> extends YzsBaseListNoMVPFragment<T> {
     @Override
     protected void immersionInit() {
         ImmersionBar.with(this).statusBarView(R.id.yzs_view)

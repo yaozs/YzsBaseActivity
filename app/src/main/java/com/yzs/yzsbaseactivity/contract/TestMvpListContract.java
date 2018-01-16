@@ -1,9 +1,9 @@
 package com.yzs.yzsbaseactivity.contract;
 
 
-import com.yzs.yzsbaseactivitylib.base.BaseModel;
-import com.yzs.yzsbaseactivitylib.base.BasePresenter;
-import com.yzs.yzsbaseactivitylib.base.BaseView;
+import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
+import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
+import com.yzs.yzsbaseactivitylib.basemvp.BaseView;
 
 import java.util.List;
 

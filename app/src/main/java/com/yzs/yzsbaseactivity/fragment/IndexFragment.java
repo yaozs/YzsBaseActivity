@@ -3,9 +3,8 @@ package com.yzs.yzsbaseactivity.fragment;
 import android.os.Bundle;
 
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseCommonFragment;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseHomeFragment;
-import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseFragment;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseHomeFragment;
 
 /**
  * Author: 姚智胜
@@ -49,11 +48,6 @@ public class IndexFragment extends YzsBaseHomeFragment {
     }
 
     @Override
-    public boolean openEventBus() {
-        return false;
-    }
-
-    @Override
     public boolean showToolBar() {
         return false;
     }
@@ -61,11 +55,6 @@ public class IndexFragment extends YzsBaseHomeFragment {
     @Override
     protected int getLayoutRes() {
         return R.layout.fg_index;
-    }
-
-    @Override
-    protected void EventBean(BaseEventBusBean event) {
-
     }
 
     @Override
@@ -85,7 +74,7 @@ public class IndexFragment extends YzsBaseHomeFragment {
 
     @Override
     protected void initTab() {
-        setmFragments(new YzsBaseCommonFragment[]{HomeFragment.newInstance(),WebFragment.newInstance(),
+        setmFragments(new YzsBaseFragment[]{HomeFragment.newInstance(),WebFragment.newInstance(),
               MsgFragment.newInstance(),MyFragment.newInstance()});
 
         //如果不想显示图标，最简便的方法就是直接不调用这两个方法
@@ -96,11 +85,6 @@ public class IndexFragment extends YzsBaseHomeFragment {
         setInitChooseTab(0);
     }
 
-
-    @Override
-    public void initToolBar() {
-        super.initToolBar();
-    }
 
     @Override
     public int getToolBarResId() {

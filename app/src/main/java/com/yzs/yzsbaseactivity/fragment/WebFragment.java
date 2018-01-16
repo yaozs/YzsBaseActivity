@@ -4,8 +4,7 @@ import android.os.Bundle;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivitylib.base.YzsBaseWebFragment;
-import com.yzs.yzsbaseactivitylib.entity.BaseEventBusBean;
+import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseWebFragment;
 
 /**
  * Author: 姚智胜
@@ -27,7 +26,7 @@ public class WebFragment extends YzsBaseWebFragment {
     }
     @Override
     protected void initLogic() {
-        setTitle("WebFragment");
+
         initWebView("https://www.baidu.com/", _mActivity);
     }
 
@@ -38,11 +37,6 @@ public class WebFragment extends YzsBaseWebFragment {
                 .statusBarColor(R.color.md_blue_grey_200)
                 .navigationBarColor(R.color.md_blue_grey_200)
                 .init();
-    }
-
-    @Override
-    protected void EventBean(BaseEventBusBean event) {
-
     }
 
     @Override
