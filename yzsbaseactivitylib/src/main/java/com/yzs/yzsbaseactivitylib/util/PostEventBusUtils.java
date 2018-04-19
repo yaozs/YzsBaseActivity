@@ -35,12 +35,9 @@ public class PostEventBusUtils {
      * @param <T>  必须继承于BaseEventBusBean
      */
     public <T extends BaseEventBusBean> void postMessage(final T bean) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                EventBus.getDefault().post(bean);
-            }
-        }).start();
+
+        EventBus.getDefault().post(bean);
+
     }
 
     /**
@@ -50,12 +47,7 @@ public class PostEventBusUtils {
      * @param <T>  必须继承于BaseEventBusBean
      */
     public <T extends BaseEventBusBean> void postStickMessage(final T bean) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                EventBus.getDefault().postSticky(bean);
-            }
-        }).start();
+        EventBus.getDefault().postSticky(bean);
     }
 
 }

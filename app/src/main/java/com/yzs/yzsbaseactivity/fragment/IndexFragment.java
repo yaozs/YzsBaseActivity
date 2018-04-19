@@ -2,6 +2,7 @@ package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseFragment;
 import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseHomeFragment;
@@ -38,28 +39,8 @@ public class IndexFragment extends YzsBaseHomeFragment {
     }
 
     @Override
-    protected void immersionInit() {
-
-    }
-
-    @Override
-    public void initPresenter() {
-
-    }
-
-    @Override
-    public boolean showToolBar() {
-        return false;
-    }
-
-    @Override
     protected int getLayoutRes() {
         return R.layout.fg_index;
-    }
-
-    @Override
-    protected void getBundleExtras(Bundle bundle) {
-
     }
 
     @Override
@@ -74,8 +55,8 @@ public class IndexFragment extends YzsBaseHomeFragment {
 
     @Override
     protected void initTab() {
-        setmFragments(new YzsBaseFragment[]{HomeFragment.newInstance(),WebFragment.newInstance(),
-              MsgFragment.newInstance(),MyFragment.newInstance()});
+        setmFragments(new YzsBaseFragment[]{HomeFragment.newInstance(), WebFragment.newInstance(),
+                MsgFragment.newInstance(), MyFragment.newInstance()});
 
         //如果不想显示图标，最简便的方法就是直接不调用这两个方法
         // setmIconSelectIds(mIconSelectIds);
@@ -85,9 +66,8 @@ public class IndexFragment extends YzsBaseHomeFragment {
         setInitChooseTab(0);
     }
 
-
     @Override
-    public int getToolBarResId() {
-        return super.getToolBarResId();
+    public boolean showToolBar() {
+        return false;
     }
 }

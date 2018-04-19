@@ -15,8 +15,9 @@
 
 
 本项目为yzslib的一个分支，目的是为了方便大家使用，减少依赖，如果需要整个开发框架请移步<br />
-[YzsLib——超好用的开发框架](https://github.com/yaozs/YzsLib)
-
+[YzsLib——超好用的开发框架](https://github.com/yaozs/YzsLib)<br />
+如果你想详细的查看一下该框架的所有方法<br />
+##[YzsBaseActivity框架方法详解](https://www.jianshu.com/p/5df398294cbf)<br />
             YzsLib开源交流群：331973212
 
         远程依赖方法在项目根目录下的build.gradle添加如下
@@ -40,7 +41,7 @@
 ### 本项目采用的架构是 多Activity 多fragment的模块化架构，使用fragmentation作为底层进行的二次开发封装，使界面加载更加的快速，
 切换动画比ac更加容易控制等优点。具体使用详见demo
 
-  
+ 
         
         * 16.11.7  更新BaseActivity，支持4.4版本以上沉浸式
         * 16.11.15 更新style——activity，配合YzsBase使用实现沉浸式
@@ -62,6 +63,7 @@
         * 17.07.13 优化fragment切换出现白边
         * 17.08.02 优化默认tooblar颜色设置，自动适配项目颜色
         * 17.08.07 优化list界面自动化处理，一句代码搞定各种加载状态     autoListLoad  方法诞生
+        * 18.04.19 添加YzsBaseActivity框架方法详解，整理代码，梳理逻辑
 
 
 ### 本项目使用开源项目

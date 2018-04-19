@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -31,16 +32,20 @@ public abstract class YzsBaseWebFragment extends YzsBaseFragment {
     protected WebView wv_web_view;
 
 
-    protected WebView initWebView(final String url,
-                                  Activity activity) {
-        return initWebView(url, activity, null, null);
+    protected WebView initWeb(final String url) {
+        return initWebView(url, _mActivity, null, null);
     }
 
-    protected WebView initWebView(final String url,
-                                  Activity activity,
+    protected WebView initWeb(final String url,
                                   final onWebProgressListener listener) {
-        return initWebView(url, activity, null, listener);
+        return initWebView(url, _mActivity, null, listener);
     }
+    protected WebView initWeb(final String url,
+                              Object classObj,
+                              final onWebProgressListener listener) {
+        return initWebView(url, _mActivity, classObj, listener);
+    }
+
 
     /**
      * 初始化webView
@@ -51,7 +56,7 @@ public abstract class YzsBaseWebFragment extends YzsBaseFragment {
      * @return
      */
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
-    protected WebView initWebView(final String url,
+    private WebView initWebView(final String url,
                                   Activity activity,
                                   Object classObj,
                                   final onWebProgressListener listener
@@ -68,6 +73,9 @@ public abstract class YzsBaseWebFragment extends YzsBaseFragment {
         wv_settings.setBuiltInZoomControls(false);
         wv_settings.setSupportZoom(false);
         wv_settings.setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            wv_settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         // 加载的页面自适应手机屏幕
         wv_settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
@@ -96,8 +104,8 @@ public abstract class YzsBaseWebFragment extends YzsBaseFragment {
             @Override
             public void onReceivedSslError(WebView view,
                                            SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
-
         });
 
         if (null != listener) {

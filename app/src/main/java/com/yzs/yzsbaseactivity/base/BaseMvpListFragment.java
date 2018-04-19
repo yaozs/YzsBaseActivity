@@ -17,11 +17,13 @@ import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseMvpListFragment;
 public abstract class BaseMvpListFragment<T extends BasePresenter, E extends BaseModel, D>
         extends YzsBaseMvpListFragment<T, E, D> {
     @Override
-    protected void immersionInit() {
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view)
-                .statusBarDarkFont(false)
-                .navigationBarColor(R.color.md_red_50)
-                .init();
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+//        mImmersionBar
+//                .statusBarDarkFont(true, 0.2f)
+//                .statusBarView(R.id.yzs_view, rootView)
+//                .statusBarColor(R.color.md_blue_300)
+//                .navigationBarColor(R.color.md_blue_300)
+//                .init();
 
     }
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.yzs.yzsbaseactivity.R;
-import com.yzs.yzsbaseactivity.base.BaseListNoMvpFragment;
+import com.yzs.yzsbaseactivity.base.BaseListFragment;
 import com.yzs.yzsbaseactivitylib.entity.BaseListType;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * Description: ListFragment的demo（与activity几乎同样用法）
  * Date: 2016/12/15.
  */
-public class MsgFragment extends BaseListNoMvpFragment<String> {
+public class MsgFragment extends BaseListFragment<String> {
 
     private int pageSize = 20;
 
@@ -41,12 +41,16 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
     }
 
     @Override
-    protected void immersionInit() {
-        super.immersionInit();
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view, rootView)
-                .statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.md_green_400)
-                .navigationBarColor(R.color.md_red_500)
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+//        mImmersionBar
+//                .statusBarView(R.id.yzs_view, rootView)
+//                .statusBarColor(R.color.md_blue_300)
+//                .navigationBarColor(R.color.md_blue_300)
+//                .init();
+        mImmersionBar
+                .statusBarView(R.id.yzs_view,rootView)
+                .statusBarColor(R.color.md_blue_300)
+                .navigationBarColor(R.color.md_blue_300)
                 .init();
     }
 
@@ -71,11 +75,6 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
                 }
             }
         });
-
-    }
-
-    @Override
-    protected void getBundleExtras(Bundle bundle) {
 
     }
 
@@ -153,6 +152,13 @@ public class MsgFragment extends BaseListNoMvpFragment<String> {
         return list;
     }
 
-
+    @Override
+    public boolean showToolBar() {
+        return true;
+    }
+    @Override
+    protected boolean immersionEnabled() {
+        return true;
+    }
 }
 

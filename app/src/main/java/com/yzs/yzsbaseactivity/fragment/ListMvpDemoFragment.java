@@ -28,7 +28,7 @@ import java.util.List;
 
 public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, TestModel, String> implements
         TestMvpListContract.View {
-    private static final String TAG = "ListMvpDemoFragment" ;
+    private static final String TAG = "ListMvpDemoFragment";
 
     private boolean isRefresh = false;
     private boolean isFail = false;
@@ -47,15 +47,16 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
         super.initView(view);
         setMvp(true);
     }
+
     @Override
-    protected void immersionInit() {
-        super.immersionInit();
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
-                .statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.md_red_500)
-                .navigationBarColor(R.color.md_red_50)
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+        mImmersionBar
+                .statusBarView(R.id.yzs_view, rootView)
+                .statusBarColor(R.color.md_blue_300)
+                .navigationBarColor(R.color.md_blue_300)
                 .init();
     }
+
 
     @Override
     public void initPresenter() {
@@ -78,24 +79,20 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
     public void showData(List<String> list) {
         try {
             if (isRefresh) {
-               autoListLoad(list,"",R.drawable.empty_address);
+                autoListLoad(list, "", R.drawable.empty_address);
             } else {
-                    if (isFail) {
-                        isFail = false;
-                        autoListLoad(list,"",R.drawable.empty_address,true);
-                    } else {
-                        isFail = true;
-                        autoListLoad(list,"",R.drawable.empty_address);
-                    }
+                if (isFail) {
+                    isFail = false;
+                    autoListLoad(list, "", R.drawable.empty_address, true);
+                } else {
+                    isFail = true;
+                    autoListLoad(list, "", R.drawable.empty_address);
+                }
             }
-        }catch (Exception e){
-            Logger.e(TAG,e);
+        } catch (Exception e) {
+            Logger.e(TAG, e);
         }
-
-
     }
-
-
 
     @Override
     protected int initItemLayout() {
@@ -107,7 +104,6 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
         isOpenLoad(true, true);//是否开启加载和刷新
         setListType(BaseListType.LINEAR_LAYOUT_MANAGER, true);//设置展示方式
 //        setSpanCount(4);//为grid样式和瀑布流设置横向或纵向数量
-        setLoadMordTypeLayout(new CustomLoadMoreView());//可以不设置，有默认
     }
 
     @Override
@@ -150,9 +146,9 @@ public class ListMvpDemoFragment extends BaseMvpListFragment<TestPresenter, Test
         return true;
     }
 
-
     @Override
-    protected void getBundleExtras(Bundle bundle) {
-
+    protected boolean immersionEnabled() {
+        return true;
     }
+
 }

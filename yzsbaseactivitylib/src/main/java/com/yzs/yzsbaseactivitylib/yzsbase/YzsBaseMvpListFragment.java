@@ -53,11 +53,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
 
     protected YzsListAdapter mAdapter;
 
-    private LoadMoreView loadMoreView;
-
     protected RefreshLayout mRefreshLayout;
-
-
 
     private boolean isOpenRefresh = false;
 
@@ -69,7 +65,6 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
     public void setmPageSize(int mPageSize) {
         this.mPageSize = mPageSize;
     }
-
 
 
     @Override
@@ -98,14 +93,13 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
             throw new RuntimeException("layoutResId is null!");
         }
         mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
-        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.yzs_base_refreshLayout);
         mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
         initSetting();
-        mAdapter.setLoadMoreView(getLoadMoreView());
         chooseListType(mListType, mIsVertical);
 
-        if (isOpenRefresh && mRefreshLayout != null ) {
-            if (isOpenLoadMore){
+        if (isOpenRefresh && mRefreshLayout != null) {
+            if (isOpenLoadMore) {
                 mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
                     @Override
                     public void onLoadmore(RefreshLayout refreshlayout) {
@@ -120,7 +114,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
                         refreshListener();
                     }
                 });
-            }else {
+            } else {
                 mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
                     @Override
                     public void onRefresh(RefreshLayout refreshlayout) {
@@ -132,39 +126,6 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
 
         }
 
-    }
-
-    /**
-     * 设置load界面的多种状态 没有更多、loading、加载失败三种三种状态
-     *
-     * @param loadMoreView load界面多状态布局
-     */
-    protected void setLoadMordTypeLayout(LoadMoreView loadMoreView) {
-        this.loadMoreView = loadMoreView;
-    }
-
-    public LoadMoreView getLoadMoreView() {
-        return loadMoreView == null ? new LoadMoreView() {
-            @Override
-            public int getLayoutId() {
-                return R.layout.quick_view_load_more;
-            }
-
-            @Override
-            protected int getLoadingViewId() {
-                return R.id.load_more_loading_view;
-            }
-
-            @Override
-            protected int getLoadFailViewId() {
-                return R.id.load_more_load_fail_view;
-            }
-
-            @Override
-            protected int getLoadEndViewId() {
-                return R.id.load_more_load_end_view;
-            }
-        } : loadMoreView;
     }
 
 
@@ -190,6 +151,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
         mListType = type;
         mIsVertical = isVertical;
     }
+
     /**
      * 为grid样式和瀑布流设置横向或纵向数量
      *
@@ -249,14 +211,17 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
     protected abstract void MyHolder(BaseViewHolder baseViewHolder, D t);
 
     /**
-     * 初始化子布局
+     * 刷新回调
      */
-    protected abstract void refreshListener();
+    protected void refreshListener() {
+    }
+
 
     /**
-     * 初始化子布局
+     * 加载更多回调
      */
-    protected abstract void loadMoreListener();
+    protected void loadMoreListener() {
+    }
 
 
     public class YzsListAdapter extends BaseQuickAdapter<D, BaseViewHolder> {
@@ -355,7 +320,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
      */
     private void judgeViewIsNull() {
         if (mRefreshLayout == null) {
-            mRefreshLayout = (RefreshLayout) rootView.findViewById(R.id.refreshLayout);
+            mRefreshLayout = (RefreshLayout) rootView.findViewById(R.id.yzs_base_refreshLayout);
         }
         if (mRecyclerView == null) {
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.yzs_base_list);
@@ -363,11 +328,10 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
         if (mAdapter == null) {
             mAdapter = new YzsListAdapter(initItemLayout(), new ArrayList<D>());
             initSetting();
-            mAdapter.setLoadMoreView(getLoadMoreView());
             chooseListType(mListType, mIsVertical);
 
-            if (isOpenRefresh && mRefreshLayout != null ) {
-                if (isOpenLoadMore){
+            if (isOpenRefresh && mRefreshLayout != null) {
+                if (isOpenLoadMore) {
                     mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
                         @Override
                         public void onLoadmore(RefreshLayout refreshlayout) {
@@ -382,7 +346,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
                             refreshListener();
                         }
                     });
-                }else {
+                } else {
                     mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
                         @Override
                         public void onRefresh(RefreshLayout refreshlayout) {
@@ -408,7 +372,7 @@ public abstract class YzsBaseMvpListFragment<T extends BasePresenter, E extends 
     /**
      * 提供改变显示方法（该方法用于布局显示后动态改变显示方式）
      */
-    protected void changeShowType(int listType, boolean isVertical) {
+    protected void changeShowType(@ListType int listType, boolean isVertical) {
         chooseListType(listType, isVertical);
     }
 }

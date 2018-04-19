@@ -11,7 +11,7 @@ import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
  * Email: 541567595@qq.com
  */
 
-public abstract class YzsBaseListNoMVPFragment<T> extends YzsBaseMvpListFragment<BasePresenter, BaseModel, T> {
+public abstract class YzsBaseListFragment<T> extends YzsBaseMvpListFragment<BasePresenter, BaseModel, T> {
 
     @Override
     protected int getLayoutRes() {

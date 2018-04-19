@@ -20,16 +20,6 @@ public class DemoFragment extends BaseFragment{
     }
 
     @Override
-    protected void immersionInit() {
-
-    }
-
-    @Override
-    public void initPresenter() {
-
-    }
-
-    @Override
     protected int getLayoutRes() {
         return 0;
     }
@@ -39,8 +29,4 @@ public class DemoFragment extends BaseFragment{
 
     }
 
-    @Override
-    protected void getBundleExtras(Bundle bundle) {
-
-    }
 }

@@ -95,7 +95,10 @@ public abstract class YzsBaseActivity<T extends BasePresenter, E extends BaseMod
     /**
      * 初始化沉浸式
      */
-    public abstract void initImmersion();
+    public void initImmersion() {
+    }
+
+    ;
 
     /**
      * 获取contentView 资源id
@@ -119,7 +122,10 @@ public abstract class YzsBaseActivity<T extends BasePresenter, E extends BaseMod
      *
      * @param extras
      */
-    protected abstract void getBundleExtras(Bundle extras);
+    protected void getBundleExtras(Bundle extras) {
+    }
+
+    ;
 
     @Override
     protected void onDestroy() {
@@ -141,7 +147,10 @@ public abstract class YzsBaseActivity<T extends BasePresenter, E extends BaseMod
     /**
      * 简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
      */
-    public abstract void initPresenter();
+    public void initPresenter() {
+    }
+
+    ;
 
     /**
      * 初始化view

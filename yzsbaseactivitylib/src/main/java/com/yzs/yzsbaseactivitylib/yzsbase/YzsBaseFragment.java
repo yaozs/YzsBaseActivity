@@ -106,8 +106,9 @@ public abstract class YzsBaseFragment<T extends BasePresenter, E extends BaseMod
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
+        mImmersionBar = ImmersionBar.with(this);
         if (immersionEnabled()) {
-            immersionInit();
+            immersionInit(mImmersionBar);
         }
         hideInput();
     }
@@ -152,7 +153,8 @@ public abstract class YzsBaseFragment<T extends BasePresenter, E extends BaseMod
     /**
      * 状态栏初始化（immersionEnabled默认为false时不走该方法）
      */
-    protected abstract void immersionInit();
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+    }
 
     /**
      * 是否显示通用toolBar
@@ -193,7 +195,8 @@ public abstract class YzsBaseFragment<T extends BasePresenter, E extends BaseMod
      *
      * @param bundle
      */
-    protected abstract void getBundleExtras(Bundle bundle);
+    protected void getBundleExtras(Bundle bundle) {
+    }
 
     /**
      * 设置界面是否使用mvp模式（不用关注这个方法，这个方法是专门处理列表类界面的）

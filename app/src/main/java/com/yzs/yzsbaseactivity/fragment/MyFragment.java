@@ -20,20 +20,17 @@ public class MyFragment extends BaseFragment {
     public static MyFragment newInstance() {
 
         Bundle args = new Bundle();
-
         MyFragment fragment = new MyFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected void immersionInit() {
-        super.immersionInit();
-        Log.e("222222222222", "11111111111");
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
-                .statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.md_yellow_200)
-                .navigationBarColor(R.color.md_yellow_200)
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+        mImmersionBar
+                .statusBarView(R.id.yzs_view,rootView)
+                .statusBarColor(R.color.md_blue_300)
+                .navigationBarColor(R.color.md_blue_300)
                 .init();
     }
 
@@ -41,12 +38,6 @@ public class MyFragment extends BaseFragment {
     protected void initLogic() {
 
     }
-
-    @Override
-    public void initPresenter() {
-
-    }
-
 
     @Override
     public boolean showToolBar() {
@@ -62,10 +53,9 @@ public class MyFragment extends BaseFragment {
     protected void initView(View rootView) {
 
     }
-
     @Override
-    protected void getBundleExtras(Bundle bundle) {
-
+    protected boolean immersionEnabled() {
+        return true;
     }
 
 }

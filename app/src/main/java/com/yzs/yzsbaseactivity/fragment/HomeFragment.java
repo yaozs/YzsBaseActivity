@@ -1,12 +1,14 @@
 package com.yzs.yzsbaseactivity.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
+import com.orhanobut.logger.Logger;
 import com.yzs.yzsbaseactivity.R;
 import com.yzs.yzsbaseactivity.activity.SecondActivity;
 import com.yzs.yzsbaseactivity.base.BaseFragment;
@@ -45,8 +47,6 @@ public class HomeFragment extends BaseFragment {
         textView = (TextView) view.findViewById(R.id.home);
     }
 
-
-
     @Override
     protected void initLogic() {
         textView.setOnClickListener(new View.OnClickListener() {
@@ -65,35 +65,22 @@ public class HomeFragment extends BaseFragment {
         };
     }
 
-
-
     @Override
-    protected void getBundleExtras(Bundle bundle) {
-
-    }
-
-    @Override
-    protected void immersionInit() {
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view, rootView)
-                .statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.md_red_100)
-                .navigationBarColor(R.color.md_red_100)
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+        mImmersionBar
+                .statusBarView(R.id.yzs_view, rootView)
+                .statusBarColor(R.color.md_blue_300)
+                .navigationBarColor(R.color.md_blue_300)
                 .init();
     }
 
     @Override
-    public void initPresenter() {
-
+    public boolean showToolBar() {
+        return true;
     }
 
-
-//    @Override
-//    public int getToolBarResId() {
-//        return R.layout.test_toolbar;
-//    }
-
     @Override
-    public boolean showToolBar() {
+    protected boolean immersionEnabled() {
         return true;
     }
 }

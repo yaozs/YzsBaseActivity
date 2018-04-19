@@ -9,8 +9,7 @@
     <ViewStub
         android:id="@+id/vs_toolbar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/trans" />
+        android:layout_height="wrap_content" />
     <!--内容区-->
     <FrameLayout
         android:id="@+id/fl_container"

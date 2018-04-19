@@ -56,4 +56,9 @@ public abstract class YzsBaseSupportFragmentActivity<T extends BasePresenter, E 
         // 设置自定义动画
 //        return new FragmentAnimator(enter,exit,popEnter,popExit);
     }
+
+    @Override
+    public boolean showToolBar() {
+        return super.showToolBar();
+    }
 }

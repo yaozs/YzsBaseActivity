@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.yzs.yzsbaseactivitylib.R;
+import com.yzs.yzsbaseactivitylib.annotations.ListType;
 import com.yzs.yzsbaseactivitylib.basemvp.BaseModel;
 import com.yzs.yzsbaseactivitylib.basemvp.BasePresenter;
 import com.yzs.yzsbaseactivitylib.entity.BaseListType;
@@ -34,7 +35,7 @@ import java.util.List;
  * Email: 541567595@qq.com
  */
 
-public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E extends BaseModel, D extends MultiItemEntity> extends
+public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E extends BaseModel, D extends MultiItemEntity> extends
         YzsBaseFragment<T, E> {
 
     /**
@@ -87,7 +88,7 @@ public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E 
             throw new RuntimeException("layoutResId is null!");
         }
         mRecyclerView = (RecyclerView) view.findViewById(R.id.yzs_base_list);
-        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        mRefreshLayout = (RefreshLayout) view.findViewById(R.id.yzs_base_refreshLayout);
         mAdapter = new YzsListAdapter(_mActivity, new ArrayList<D>());
         initSetting();
         chooseListType(mListType, mIsVertical);
@@ -204,12 +205,14 @@ public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E 
     /**
      * 初始化子布局
      */
-    protected abstract void refreshListener();
+    protected void refreshListener() {
+    }
 
     /**
      * 初始化子布局
      */
-    protected abstract void loadMoreListener();
+    protected void loadMoreListener() {
+    }
 
 
     public class YzsListAdapter extends BaseMultiItemQuickAdapter<D, BaseViewHolder> {
@@ -325,7 +328,7 @@ public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E 
      */
     private void judgeViewIsNull() {
         if (mRefreshLayout == null) {
-            mRefreshLayout = (RefreshLayout) rootView.findViewById(R.id.refreshLayout);
+            mRefreshLayout = (RefreshLayout) rootView.findViewById(R.id.yzs_base_refreshLayout);
         }
         if (mRecyclerView == null) {
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.yzs_base_list);
@@ -376,7 +379,7 @@ public abstract class YzsBaseMvpMoreTypeListFragment<T extends BasePresenter, E 
     /**
      * 提供改变显示方法（该方法用于布局显示后动态改变显示方式）
      */
-    protected void changeShowType(int listType, boolean isVertical) {
+    protected void changeShowType(@ListType int listType, boolean isVertical) {
         chooseListType(listType, isVertical);
     }
 }

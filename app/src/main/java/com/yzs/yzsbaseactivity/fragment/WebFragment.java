@@ -17,35 +17,37 @@ import com.yzs.yzsbaseactivitylib.yzsbase.YzsBaseWebFragment;
 public class WebFragment extends YzsBaseWebFragment {
 
     public static WebFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         WebFragment fragment = new WebFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected void initLogic() {
 
-        initWebView("https://www.baidu.com/", _mActivity);
+        initWeb("https://www.baidu.com/");
     }
 
     @Override
-    protected void immersionInit() {
-        ImmersionBar.with(this).statusBarView(R.id.yzs_view,rootView)
-                .statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.md_blue_grey_200)
-                .navigationBarColor(R.color.md_blue_grey_200)
+    protected void immersionInit(ImmersionBar mImmersionBar) {
+        mImmersionBar
+                .statusBarView(R.id.yzs_view,rootView)
+                .statusBarColor(R.color.md_blue_300)
+                .navigationBarColor(R.color.md_blue_300)
                 .init();
     }
 
-    @Override
-    protected void getBundleExtras(Bundle bundle) {
-
-    }
 
     @Override
     public boolean showToolBar() {
+        return true;
+    }
+
+    @Override
+    protected boolean immersionEnabled() {
         return true;
     }
 }
