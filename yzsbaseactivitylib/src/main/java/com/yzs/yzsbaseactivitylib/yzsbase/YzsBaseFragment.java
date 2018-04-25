@@ -106,8 +106,8 @@ public abstract class YzsBaseFragment<T extends BasePresenter, E extends BaseMod
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        mImmersionBar = ImmersionBar.with(this);
         if (immersionEnabled()) {
+            mImmersionBar = ImmersionBar.with(this);
             immersionInit(mImmersionBar);
         }
         hideInput();
