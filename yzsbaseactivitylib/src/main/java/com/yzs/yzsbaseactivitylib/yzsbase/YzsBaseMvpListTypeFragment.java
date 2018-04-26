@@ -65,6 +65,7 @@ public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E exte
 
     private int mPage = 1;
     private int mPageSize = 10;
+    private int startPageNum = 1;
 
     public void setmPageSize(int mPageSize) {
         this.mPageSize = mPageSize;
@@ -243,7 +244,7 @@ public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E exte
      */
     public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int empty_res) {
         tList = tList == null ? new ArrayList<D>() : tList;
-        if (getPage() == 1) {
+        if (getPage() == startPageNum) {
             okRefresh();
             mAdapter.setNewData(tList);
             if (tList.size() == 0) {
@@ -268,7 +269,7 @@ public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E exte
      * @param isFail
      */
     public void autoListLoad(@Nullable List<D> tList, String empty_str, @DrawableRes int empty_res, boolean isFail) {
-        if (isFail && getPage() != 1) {
+        if (isFail && getPage() != startPageNum) {
             failLoadMore();
         } else {
             autoListLoad(tList, empty_str, empty_res);
@@ -285,7 +286,7 @@ public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E exte
     public void okRefresh() {
         judgeViewIsNull();
         if (mAdapter != null) {
-            mPage = 2;
+            mPage = startPageNum + 1;
             mRefreshLayout.finishRefresh();
             mRefreshLayout.setLoadmoreFinished(false);//恢复上拉状态
             Logger.d("refresh_complete");
@@ -321,6 +322,7 @@ public abstract class YzsBaseMvpListTypeFragment<T extends BasePresenter, E exte
 
     public void setPage(int page) {
         mPage = page;
+        startPageNum = page;
     }
 
     /**
