@@ -1,7 +1,7 @@
 package com.yzs.yzsbaseactivitylib.adapter;
 
-import android.support.v4.util.SparseArrayCompat;
 
+import androidx.collection.SparseArrayCompat;
 
 /**
  * Created by zhy on 16/6/22.
